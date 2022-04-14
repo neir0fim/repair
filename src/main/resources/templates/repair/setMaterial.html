@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New repair</title>
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/material}" th:object="${repair}">
+
+    <label for="description">Enter description: </label>
+    <input type="text" th:field="*{description}" id="description"/>
+    <br/>
+
+
+    <select th:field="*{article}">
+        <option value="default">Select a article</option>
+        <option th:each="article: ${articles}" th:value="${article.getArticle()}"th:text="${article}"/>
+    </select>
+    <br/>
+
+
+    <input type="submit" value="Create!"/>
+</form>
+
+</body>
+</html>

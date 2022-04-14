@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Resource</title>
+</head>
+<body>
+
+<div>
+    <h2>REPAIR</h2>
+    <br>
+
+    <p th:text="${repair.getId()}"/>
+    <p th:text="${repair.getDescription()}"/>
+    <p th:text="${repair.getArticle()}"/>
+    <p th:text="${repair.getType()}"/>
+
+    <p th:text="${repair.getMaterials()}"/>
+
+
+    <a th:href="@{/repair/{id}/edit (id = ${repair.getId()})}">EDIT</a>
+    <br>
+
+    <a th:href="@{/material/{id} (id = ${repair.getId()})}">ADD Materials</a>
+
+
+</div>
+
+
+</body>
+</html>
