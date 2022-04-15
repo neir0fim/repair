@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class ArticleDao implements Dao<Article> {
@@ -16,7 +17,11 @@ public class ArticleDao implements Dao<Article> {
     JdbcTemplate jdbcTemplate;
 
     private static final String GET_ALL_ARTICLES = "SELECT * from article";
-
+    private static final String GET_ARTICLE = "SELECT * from article where id = ?";
+    private static final String ADD_ARTICLE = "INSERT INTO article"
+            + " (unit_id, type, article) VALUES (?, ?, ?) returning id";
+    private static final String DELETE_ARTICLE = "DELETE from article where id = ?";
+    private static final String GET_ALL_ARTICLES_FOR_UNIT = "SELECT * from article where unit_id = ?";
 
 
     @Autowired
@@ -27,7 +32,8 @@ public class ArticleDao implements Dao<Article> {
 
     @Override
     public Article get(long id) {
-        return null;
+        return Optional.ofNullable(jdbcTemplate.queryForObject(GET_ARTICLE,
+                new ArticleMapper(), id)).orElseThrow();
     }
 
     @Override
@@ -37,8 +43,17 @@ public class ArticleDao implements Dao<Article> {
 
     @Override
     public Article save(Article article) {
+        Article result = new Article();
+        result.setId(Optional.ofNullable(jdbcTemplate.queryForObject(
+                ADD_ARTICLE, Long.class, article.getUnit_id(),
+                article.getType(), article.getArticle(), article.getId()))
+                .stream().findAny().orElseThrow());
 
-        return null;
+        result.setArticle(article.getArticle());
+        result.setUnit_id(article.getUnit_id());
+        result.setType(article.getType());
+
+        return result;
     }
 
     @Override
@@ -48,6 +63,11 @@ public class ArticleDao implements Dao<Article> {
 
     @Override
     public void delete(long article) {
+        jdbcTemplate.update(DELETE_ARTICLE, article);
+    }
 
+    public List<Article> getForUnit(long id) {
+        return new ArrayList<>(jdbcTemplate.query(GET_ALL_ARTICLES_FOR_UNIT,
+                new ArticleMapper(), id));
     }
 }

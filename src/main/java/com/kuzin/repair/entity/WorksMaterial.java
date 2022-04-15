@@ -1,6 +1,7 @@
 package com.kuzin.repair.entity;
 
 public class WorksMaterial extends Material {
+    long id;
     double amount;
     double cost;
 
@@ -22,6 +23,19 @@ public class WorksMaterial extends Material {
         this.amount = amount;
     }
 
+    public double getCost() {
+        return cost;
+    }
 
+    public void setCost(double cost) {
+        this.cost = cost;
+    }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 }

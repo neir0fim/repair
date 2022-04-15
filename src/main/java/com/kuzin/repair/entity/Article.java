@@ -8,23 +8,37 @@ public class Article {
 
 
     private String article;
-
-    private int id;
-
+    private long unit_id;
     private String type;
+    private long id;
 
-    public Article(String article, int id, String type) {
+
+    public Article(String article, long unit_id, String type, long id) {
         this.article = article;
-        this.id = id;
+        this.unit_id = unit_id;
         this.type = type;
+        this.id = id;
     }
 
     public Article() {
 
     }
 
+
     public String getArticle() {
         return article;
+    }
+
+    public void setArticle(String article) {
+        this.article = article;
+    }
+
+    public long getUnit_id() {
+        return unit_id;
+    }
+
+    public void setUnit_id(long unit_id) {
+        this.unit_id = unit_id;
     }
 
     public String getType() {
@@ -35,6 +49,13 @@ public class Article {
         this.type = type;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     @Override
     public boolean equals(Object o) {

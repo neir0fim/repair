@@ -2,7 +2,7 @@ package com.kuzin.repair.service;
 
 
 import com.kuzin.repair.dao.UnitDao;
-import com.kuzin.repair.entity.Factory;
+import com.kuzin.repair.entity.FactoryEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,9 +12,9 @@ public class FactoryService {
 
 
 
-    public Factory getFactory(Factory factory) {
+    public FactoryEntity getFactory(FactoryEntity factory) {
 //        factory.setUnits();
-//        factory.setPersons();
+
 
         return factory;
     }

@@ -7,19 +7,33 @@ import java.util.List;
 
 public class Unit {
 
-    Units type;
+    long id;
+    String type;
     List<Article> articleList;
+    List<Person> persons;
 
-    public Unit(Units type, List<Article> articleList) {
+    public Unit(long id, String type) {
+        this.id = id;
         this.type = type;
-        this.articleList = articleList;
     }
 
-    public Units getType() {
+    public Unit() {
+
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getType() {
         return type;
     }
 
-    public void setType(Units type) {
+    public void setType(String  type) {
         this.type = type;
     }
 
@@ -31,6 +45,13 @@ public class Unit {
         this.articleList = articleList;
     }
 
+    public List<Person> getPersons() {
+        return persons;
+    }
+
+    public void setPersons(List<Person> persons) {
+        this.persons = persons;
+    }
 
     @Override
     public String toString() {
