@@ -1,1 +1,6 @@
 rootProject.name = 'repair'
+include 'entity'
+include 'untitled'
+include 'web-app'
+include 'service'
+
