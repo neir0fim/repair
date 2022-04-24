@@ -3,13 +3,14 @@ package com.kuzin.service.dao;
 
 import com.kuzin.entity.Article;
 import com.kuzin.service.mapper.ArticleMapper;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+/** article dao class.*/
 
 @Repository
 public class ArticleDao implements Dao<Article> {
@@ -21,8 +22,10 @@ public class ArticleDao implements Dao<Article> {
     private static final String ADD_ARTICLE = "INSERT INTO article"
             + " (unit_id, type, article) VALUES (?, ?, ?) returning id";
     private static final String DELETE_ARTICLE = "DELETE from article where id = ?";
-    private static final String GET_ALL_ARTICLES_FOR_UNIT = "SELECT * from article where unit_id = ?";
-
+    private static final String GET_ALL_ARTICLES_FOR_UNIT = "SELECT * from "
+            + "article where unit_id = ?";
+    private static final String UPDATE = "UPDATE article set unit_id = ?, type = ?,"
+            + " article = ? where id = ?";
 
     @Autowired
     public ArticleDao(JdbcTemplate jdbcTemplate) {
@@ -56,9 +59,9 @@ public class ArticleDao implements Dao<Article> {
         return result;
     }
 
-    @Override
-    public void update(Article article, String[] params) {
-
+    public void update(Article article, long id) {
+        jdbcTemplate.update(UPDATE, article.getUnitId(), article.getType(),
+                article.getValue(), id);
     }
 
     @Override

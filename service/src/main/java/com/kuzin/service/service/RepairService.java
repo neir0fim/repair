@@ -1,14 +1,14 @@
 package com.kuzin.service.service;
 
-import com.kuzin.service.dao.WorksMaterialDao;
-import com.kuzin.service.dao.RepairDao;
-import com.kuzin.entity.Material;
 import com.kuzin.entity.Repair;
+import com.kuzin.service.dao.RepairDao;
+import com.kuzin.service.dao.WorksMaterialDao;
 import com.kuzin.service.service.addition.Validation;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.List;
 
+/** repair service class.*/
 @Service
 public class RepairService implements ServiceEntity<Repair> {
 
@@ -34,7 +34,6 @@ public class RepairService implements ServiceEntity<Repair> {
     public Repair get(long id) {
         Repair result = repairDao.get(id);
         result.setMaterials(materialDao.getMaterial(id));
-        // add material
 
         return result;
     }
@@ -44,11 +43,9 @@ public class RepairService implements ServiceEntity<Repair> {
         List<Repair> repairs = repairDao.getAll();
         Validation.validateList(repairs);
 
-
-        for (Repair repair: repairs) {
+        for (Repair repair : repairs) {
             repair.setMaterials(materialDao.getMaterial(repair.getId()));
         }
-
         return repairs;
     }
 
@@ -58,9 +55,7 @@ public class RepairService implements ServiceEntity<Repair> {
         repairDao.delete(t);
     }
 
-    public Repair update(List<Material> materials, long amount, long id) {
-
-        //need change
-        return null;
+    public void update(Repair repair, long id) {
+        repairDao.update(repair, id);
     }
 }

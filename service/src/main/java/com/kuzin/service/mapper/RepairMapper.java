@@ -1,11 +1,11 @@
 package com.kuzin.service.mapper;
 
 import com.kuzin.entity.Repair;
-import org.springframework.jdbc.core.RowMapper;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import org.springframework.jdbc.core.RowMapper;
 
+/** repair mapper class.*/
 public class RepairMapper implements RowMapper<Repair> {
 
     @Override

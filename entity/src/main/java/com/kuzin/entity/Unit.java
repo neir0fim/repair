@@ -3,13 +3,12 @@ package com.kuzin.entity;
 
 import java.util.List;
 
-
+/** entity class.*/
 public class Unit {
 
     long id;
     String type;
     List<Article> articleList;
-    List<Person> persons;
 
     public Unit(long id, String type) {
         this.id = id;
@@ -44,19 +43,11 @@ public class Unit {
         this.articleList = articleList;
     }
 
-    public List<Person> getPersons() {
-        return persons;
-    }
-
-    public void setPersons(List<Person> persons) {
-        this.persons = persons;
-    }
 
     @Override
     public String toString() {
-        return "Unit{" +
-                "type=" + type +
-                ", articleList=" + articleList +
-                '}';
+        return "Unit{"
+                + "type=" + type
+                + ", articleList=" + articleList + "}";
     }
 }

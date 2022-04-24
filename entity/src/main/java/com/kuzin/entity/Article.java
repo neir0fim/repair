@@ -1,9 +1,10 @@
 package com.kuzin.entity;
 
 
-import java.util.Objects;
 import java.util.List;
+import java.util.Objects;
 
+/**entity class.*/
 public class Article {
     private String value;
     private long unitId;
@@ -66,10 +67,16 @@ public class Article {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Article article1 = (Article) o;
-        return id == article1.id && Objects.equals(value, article1.value) && Objects.equals(type, article1.type);
+        return id == article1.id && Objects.equals(value, article1.value)
+                && Objects.equals(type, article1.type);
     }
 
     @Override

@@ -1,11 +1,12 @@
 package com.kuzin.service.mapper;
 
 import com.kuzin.entity.Material;
-import org.springframework.jdbc.core.RowMapper;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import org.springframework.jdbc.core.RowMapper;
 
+
+/** material mapper class.*/
 public class MaterialsMapper implements RowMapper<Material> {
     @Override
     public Material mapRow(ResultSet rs, int rowNum) throws SQLException {

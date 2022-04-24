@@ -2,20 +2,16 @@ package com.kuzin.entity;
 
 
 
-import java.util.Objects;
 import java.util.List;
+import java.util.Objects;
 
-
+/**entity class.*/
 public class Repair {
 
     private long id;
-
     private String description;
-
     private String article;
-
     private String type;
-
     private List<WorksMaterial> materials;
 
 
@@ -70,10 +66,18 @@ public class Repair {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
         Repair repair = (Repair) o;
-        return id == repair.id && Objects.equals(description, repair.description) && Objects.equals(article, repair.article) && Objects.equals(type, repair.type) && Objects.equals(materials, repair.materials);
+        return id == repair.id && Objects.equals(description, repair.description)
+                && Objects.equals(article, repair.article)
+                && Objects.equals(type, repair.type) && Objects.equals(materials, repair.materials);
     }
 
     @Override
@@ -83,10 +87,10 @@ public class Repair {
 
     @Override
     public String toString() {
-        return "Repair:" +
-                "id=" + id +
-                ", description='" + description + '\'' +
-                ", article='" + article + '\'' +
-                ", type='" + type + '\'';
+        return "Repair:"
+                + "id=" + id
+                + ", description='" + description + '\''
+                + ", article='" + article + '\''
+                + ", type='" + type + '\'';
     }
 }

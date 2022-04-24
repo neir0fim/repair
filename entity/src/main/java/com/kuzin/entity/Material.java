@@ -1,7 +1,7 @@
 package com.kuzin.entity;
 
 
-
+/** entity class.*/
 public class Material {
 
     int cod;
@@ -65,8 +65,8 @@ public class Material {
 
     @Override
     public String toString() {
-        return "Material{" +
-                "name='" + name + '\'' +
-                '}';
+        return "Material{"
+                + "name='" + name + '\''
+                + '}';
     }
 }

@@ -1,9 +1,9 @@
 package com.kuzin.service.dao;
 
-import java.util.Optional;
 import java.util.List;
 
 
+/** interface for dao class.*/
 public interface Dao<T> {
 
     T get(long id);
@@ -11,8 +11,6 @@ public interface Dao<T> {
     List<T> getAll();
 
     T save(T t);
-
-    void update(T t, String[] params);
 
     void delete(long t);
 

@@ -1,15 +1,84 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org">
-<head lang="en">
-    <meta charset="UTF-8"/>
-    <title>ReactJS + Spring Data REST</title>
-    <link rel="stylesheet" href="/main.css" />
+
+<html lang="en" xmlns:th="http:thymeleaf.org">
+<head>
+    <title>HOME PAGE</title>
+
+    <style>
+
+        body{
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+
+        .container{
+            max-width: available;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 20px 15px;
+
+
+            border: 2px solid black;
+            background: #1E4776;
+            color: #FFFFFF;
+        }
+
+        .user-menu{
+            max-width: available;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 20px 15px;
+
+
+            border-bottom: 2px solid black;
+            background: #30445b;
+            color: #FFFFFF;
+        }
+
+        a:link {
+            color: white;
+            background-color: transparent;
+            text-decoration: none;
+        }
+
+
+        a:visited {
+            color: pink;
+            background-color: transparent;
+            text-decoration: none;
+        }
+
+    </style>
+
 </head>
-<body>
+<body class="body-class">
+    <div class="container">
+        <h2>WELCOME to:</h2>
+        <h3 th:text = "${factory.toUpperCase()}">RESULT</h3>
+    </div>
 
-<div id="react"></div>
 
-<script src="built/bundle.js"></script>
+    <div class ="user-menu">
+        <h3>MENU:</h3>
 
+        <a href="/units" >UNITS</a>
+        <br>
+
+        <a href="/persons" >PERSONS</a>
+        <br>
+
+        <a href="/menu" >ADMIN MENU</a>
+        <br>
+        <br>
+
+        <a href="/login" >LOGIN</a>
+
+        <br>
+        <br>
+
+        <a href="/getLogout">LOGOUT</a>
+    </div>
 </body>
 </html>

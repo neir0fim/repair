@@ -1,19 +1,17 @@
 package com.kuzin.web.rest;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import com.kuzin.entity.Unit;
 import com.kuzin.service.service.UnitService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+/**units controller class.*/
 
 @RestController
 @RequestMapping("/units")
@@ -31,6 +29,8 @@ public class UnitController {
         return EntityModel.of(service.get(id),
                 linkTo(methodOn(UnitController.class).getById(id)).withSelfRel(),
                 linkTo(methodOn(ArticleController.class).get()).withRel("/articles"));
+
+
     }
 
     @GetMapping()
@@ -44,6 +44,21 @@ public class UnitController {
                 linkTo(methodOn(UnitController.class).get()).withSelfRel());
     }
 
+
+    @PostMapping
+    public EntityModel<Unit> saveUnit(@RequestBody Unit unit) {
+        return EntityModel.of(service.save(unit));
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable ("id") long id) {
+        service.delete(id);
+    }
+
+    @PatchMapping("/{id}")
+    public void update(@RequestBody Unit unit, @PathVariable ("id") long id) {
+        service.update(unit, id);
+    }
 
 
 }

@@ -1,18 +1,26 @@
 package com.kuzin.service.mapper;
 
-import com.kuzin.entity.Material;
-import com.kuzin.entity.WorksMaterial;
-import org.springframework.jdbc.core.RowMapper;
 
+import com.kuzin.entity.WorksMaterial;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
+import org.springframework.jdbc.core.RowMapper;
 
-public class WorksMapper implements RowMapper<List<WorksMaterial>> {
-
+/** works mapper class.*/
+public class WorksMapper implements RowMapper<WorksMaterial> {
 
     @Override
-    public List<WorksMaterial> mapRow(ResultSet rs, int rowNum) throws SQLException {
-        return null;
+    public WorksMaterial mapRow(ResultSet rs, int rowNum) throws SQLException {
+        WorksMaterial result = new WorksMaterial();
+        result.setId(rs.getInt(1));
+        result.setCod(rs.getInt(2));
+        result.setName(rs.getString(3));
+        result.setCodDk(rs.getString(4));
+        result.setUom(rs.getString(5));
+        result.setValue(rs.getInt(6));
+        result.setAmount(rs.getInt(7));
+        result.setRepairId(rs.getInt(8));
+
+        return result;
     }
 }

@@ -3,7 +3,7 @@ package com.kuzin.service.service.addition;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-
+/**addition validation.*/
 public class Validation {
 
     private Validation() {

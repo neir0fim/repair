@@ -1,11 +1,11 @@
 package com.kuzin.service.mapper;
 
 import com.kuzin.entity.Article;
-import org.springframework.jdbc.core.RowMapper;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import org.springframework.jdbc.core.RowMapper;
 
+/** article mapper class.*/
 public class ArticleMapper implements RowMapper<Article> {
     @Override
     public Article mapRow(ResultSet rs, int rowNum) throws SQLException {

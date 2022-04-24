@@ -1,34 +1,32 @@
 package com.kuzin.service.service;
 
-import com.kuzin.service.dao.ArticleDao;
-import com.kuzin.service.dao.PersonDao;
-import com.kuzin.service.dao.UnitDao;
 import com.kuzin.entity.Unit;
+import com.kuzin.service.dao.ArticleDao;
+import com.kuzin.service.dao.UnitDao;
 import com.kuzin.service.service.addition.Validation;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+/**unit service class.*/
 
 @Service
 public class UnitService implements ServiceEntity<Unit> {
 
     UnitDao dao;
     ArticleDao articleDao;
-    PersonDao personDao;
+
 
     @Autowired
-    public UnitService(UnitDao dao, ArticleDao articleDao, PersonDao personDao) {
+    public UnitService(UnitDao dao, ArticleDao articleDao) {
         this.dao = dao;
         this.articleDao = articleDao;
-        this.personDao = personDao;
     }
 
     @Override
     public Unit get(long id) {
         Unit result = dao.get(id);
         result.setArticleList(articleDao.getForUnit(id));
-        result.setPersons(personDao.getPersonUnit(id));
 
         return result;
     }
@@ -55,5 +53,7 @@ public class UnitService implements ServiceEntity<Unit> {
         dao.delete(t);
     }
 
-
+    public void update(Unit unit, long id) {
+        dao.update(unit, id);
+    }
 }

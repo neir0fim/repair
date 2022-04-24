@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+}
+
+group 'com.kuzin'
+version '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':entity')
+    implementation group: 'org.springframework', name: 'spring-jdbc', version: '5.3.19'
+    implementation group: 'org.springframework', name: 'spring-context', version: '5.3.19'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.6.7'
+    compileOnly group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+}
+
+test {
+    useJUnitPlatform()
+}

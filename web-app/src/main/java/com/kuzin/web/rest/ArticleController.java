@@ -1,17 +1,18 @@
 package com.kuzin.web.rest;
 
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import com.kuzin.entity.Article;
 import com.kuzin.service.service.ArticleService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
+/**article controller class.*/
 
 @RestController
 @RequestMapping("/articles")
@@ -52,6 +53,11 @@ public class ArticleController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable ("id") long id) {
         service.delete(id);
+    }
+
+    @PatchMapping("/{id}")
+    public void update(@RequestBody Article article, @PathVariable ("id") long id) {
+        service.update(article, id);
     }
 
 

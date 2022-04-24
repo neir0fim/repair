@@ -1,18 +1,30 @@
 package com.kuzin.entity;
 
+/**entity class.*/
 public class WorksMaterial extends Material {
     long id;
     double amount;
     double cost;
+    long repairId;
 
-    public WorksMaterial(int cod, String name, String codDk, String uom, double value, double amount) {
+    public WorksMaterial(int cod, String name, String codDk, String uom, double value,
+                         double amount, long repairId) {
         super(cod, name, codDk, uom, value);
         this.amount = amount;
         cost = value * amount;
+        this.repairId = repairId;
     }
 
     public WorksMaterial() {
 
+    }
+
+    public long getRepairId() {
+        return repairId;
+    }
+
+    public void setRepairId(long repairId) {
+        this.repairId = repairId;
     }
 
     public double getAmount() {

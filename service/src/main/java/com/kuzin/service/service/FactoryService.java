@@ -1,10 +1,12 @@
 package com.kuzin.service.service;
 
 
-import com.kuzin.service.dao.UnitDao;
 import com.kuzin.entity.Factory;
+import com.kuzin.service.dao.UnitDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+/** factory service class.*/
 
 @Service
 public class FactoryService {

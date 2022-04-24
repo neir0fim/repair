@@ -2,6 +2,7 @@ package com.kuzin.service.service;
 
 import java.util.List;
 
+/**service interface.*/
 public interface ServiceEntity<T> {
 
     T get(long id);
