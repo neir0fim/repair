@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>ARTICLES</title>
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+              rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+              crossorigin="anonymous">
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+                crossorigin="anonymous"></script>
+
+        <script src = "https://ajax.aspnetcdn.com/ajax/knockout/knockout-3.4.2.debug.js"
+                type = "text/javascript"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    </head>
+
+    <body class="bg-dark text-white">
+        <H2 style="margin: 20px">FUNCTIONS</H2>
+
+
+        <div class="input-group mb-3" style="margin: 10px">
+            <form onSubmit="return update();">
+                <input type="number" id="article-get" placeholder="UPDATE BY ID">
+                <input type="submit" value="UPDATE">
+            </form>
+        </div>
+
+        <section class="js">
+            <div class="input-group mb-3" style="margin: 10px">
+                <form>
+                    <input type="number" id="deleted_url"  placeholder="DELETE BY ID">
+                    <button onclick = "gfg_RunUn()" id="delete_button">
+                        DELETE
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <H2 style="margin: 20px">ALL ARTICLES</H2>
+
+        <div>
+            <ul>
+                <li data-bind="foreach:tasks">
+
+                    <label> value:
+                        <span data-bind="text:value"></span>
+                    </label>
+
+                    <label> type:
+                        <span data-bind="text:type"></span>
+                    </label>
+
+                    <label> id:
+                        <span data-bind="text:id"></span>
+                    </label>
+
+                    <br>
+                </li>
+            </ul>
+        </div>
+
+        <br><br><br>
+        <a href="/admin" class="btn btn-info" role="button" style="margin: 5px">BACK TO MENU</a>
+
+
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                (function (ko) {
+                    let CheckMessage = function () {
+                        const self = this;
+                        this.newTask = ko.observable();
+                        this.tasks = ko.observableArray();
+
+                        $.ajax("/articles/api", {
+                            type:'GET',
+                            dataType: 'json',
+                            contentType: 'application/json',
+                            success: function (articles) {
+
+                                articles.forEach(article => {
+                                    var key = article.value;
+                                    var value = article.type;
+                                    var articleId = article.id;
+
+                                    self.tasks.push({value:key, type:value, id:articleId})
+                                })
+                                console.log(articles)
+                            }
+
+                        })
+                    }
+                    ko.applyBindings(new CheckMessage());
+                }) (ko)
+            })
+
+            function gfg_RunUn() {
+                const username = document.getElementById('deleted_url').value
+                $.ajax("/articles/api/" + username, {
+                    type: 'DELETE',
+                    contentType: 'application/json',
+                    success: function (data) {
+                        console.log(data)
+                        alert(data)
+                    },
+                    error: function (data) {
+                        alert(data.responseText)
+                    }
+                });
+            }
+
+            function update()
+            {
+                var url = "/articles/update/" + document.getElementById("article-get").value;
+                location.href = url;
+                return false;
+            }
+        </script>
+
+    </body>
+
+</html>

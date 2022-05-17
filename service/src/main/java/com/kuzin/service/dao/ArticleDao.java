@@ -8,12 +8,14 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 
 /** article dao class.*/
 
 @Repository
-public class ArticleDao implements Dao<Article> {
+public class ArticleDao {
 
     JdbcTemplate jdbcTemplate;
 
@@ -24,8 +26,11 @@ public class ArticleDao implements Dao<Article> {
     private static final String DELETE_ARTICLE = "DELETE from article where id = ?";
     private static final String GET_ALL_ARTICLES_FOR_UNIT = "SELECT * from "
             + "article where unit_id = ?";
-    private static final String UPDATE = "UPDATE article set unit_id = ?, type = ?,"
+    private static final String UPDATE = "UPDATE article set type = ?,"
             + " article = ? where id = ?";
+    private static final String GET_ID = "Select unit_id from units where type = ?";
+    private static final String GET_ALL_ARTICLE_BY_TYPE = "SELECT * from article where type = ?";
+    private static final String GET_USER = "SELECT type from users where username = ?";
 
     @Autowired
     public ArticleDao(JdbcTemplate jdbcTemplate) {
@@ -33,44 +38,52 @@ public class ArticleDao implements Dao<Article> {
     }
 
 
-    @Override
     public Article get(long id) {
         return Optional.ofNullable(jdbcTemplate.queryForObject(GET_ARTICLE,
                 new ArticleMapper(), id)).orElseThrow();
     }
 
-    @Override
     public List<Article> getAll() {
         return new ArrayList<>(jdbcTemplate.query(GET_ALL_ARTICLES, new ArticleMapper()));
     }
 
-    @Override
     public Article save(Article article) {
         Article result = new Article();
+
+        long unitId = Optional.ofNullable(jdbcTemplate.queryForObject(GET_ID,
+                Long.class, article.getType())).stream().findAny().orElseThrow();
+
         result.setId(Optional.ofNullable(jdbcTemplate.queryForObject(
-                ADD_ARTICLE, Long.class, article.getUnitId(),
+                ADD_ARTICLE, Long.class, unitId,
                 article.getType(), article.getValue()))
                 .stream().findAny().orElseThrow());
 
         result.setValue(article.getValue());
-        result.setUnitId(article.getUnitId());
+        result.setUnitId(unitId);
         result.setType(article.getType());
 
         return result;
     }
 
     public void update(Article article, long id) {
-        jdbcTemplate.update(UPDATE, article.getUnitId(), article.getType(),
+        jdbcTemplate.update(UPDATE, article.getType(),
                 article.getValue(), id);
     }
 
-    @Override
-    public void delete(long article) {
-        jdbcTemplate.update(DELETE_ARTICLE, article);
+    public int delete(long article) {
+        return jdbcTemplate.update(DELETE_ARTICLE, article);
     }
 
     public List<Article> getForUnit(long id) {
         return new ArrayList<>(jdbcTemplate.query(GET_ALL_ARTICLES_FOR_UNIT,
                 new ArticleMapper(), id));
+    }
+
+    public List<Article> getForUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String userType = jdbcTemplate.queryForObject(GET_USER, String.class, auth.getName());
+
+        return new ArrayList<>(jdbcTemplate.query(GET_ALL_ARTICLE_BY_TYPE,
+                new ArticleMapper(), userType));
     }
 }

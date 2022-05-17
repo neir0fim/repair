@@ -4,6 +4,7 @@ package com.kuzin.repair.config;
 import com.kuzin.repair.RepairApplication;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+
 /**config class.*/
 
 @Configuration

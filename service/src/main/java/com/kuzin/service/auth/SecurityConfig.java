@@ -1,8 +1,7 @@
 package com.kuzin.service.auth;
 
 import static com.kuzin.entity.enums.ApplicationPermission.*;
-import static com.kuzin.entity.enums.ApplicationUserRole.ADMIN;
-import static com.kuzin.entity.enums.ApplicationUserRole.WORKER;
+import static com.kuzin.entity.enums.ApplicationUserRole.*;
 
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,18 +54,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/persons").hasAnyAuthority(PERSON_GET.getPermission(),
                         PERSON_ALL.getPermission())
                 .antMatchers("/persons/**").hasRole(ADMIN.name())
+                .antMatchers("/supp/**").hasRole(SUPP.name())
+                .antMatchers("/user/**").hasRole(WORKER.name())
+                .antMatchers("/admin").hasRole(ADMIN.name())
                 .antMatchers("/menu").hasRole(ADMIN.name())
                 .antMatchers("/repair").hasRole(WORKER.name())
                 .anyRequest()
                 .authenticated()
                 .and()
-                .httpBasic()
-//                .formLogin()
-//                    .loginPage("/login")
-//                    .permitAll()
-//                    .defaultSuccessUrl("/", true)
-//                    .passwordParameter("password")
-//                    .usernameParameter("username")
+                .formLogin()
+                    .loginPage("/login")
+                    .permitAll()
+                    .defaultSuccessUrl("/", true)
+                    .passwordParameter("password")
+                    .usernameParameter("username")
                 .and()
                 .rememberMe()
                     .rememberMeParameter("remember-me")

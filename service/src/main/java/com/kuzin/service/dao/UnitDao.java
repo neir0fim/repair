@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 /**unit dao repository.*/
 
 @Repository
-public class UnitDao implements Dao<Unit> {
+public class UnitDao {
 
     JdbcTemplate jdbcTemplate;
 
@@ -23,37 +23,32 @@ public class UnitDao implements Dao<Unit> {
 
     private static final String SELECT_UNIT_BY_ID = "SELECT * from units where unit_id = ?";
     private static final String SELECT_UNITS = "SELECT * from units";
-    private static final String ADD_UNIT = "INSERT into units (unit_id, type) values (?, ?)";
+    private static final String ADD_UNIT = "INSERT into units (type) values (?) returning unit_id";
     private static final String DELETE_UNIT = "DELETE from units where unit_id = ?";
     private static final String UPDATE = "UPDATE units set type = ? where unit_id = ?";
 
-
-    @Override
     public Unit get(long id) {
         return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_UNIT_BY_ID,
                 new UnitMapper(), id)).stream().findAny().orElseThrow();
     }
 
-    @Override
     public List<Unit> getAll() {
         return new ArrayList<>(jdbcTemplate.query(SELECT_UNITS, new UnitMapper()));
     }
 
-    @Override
-    public Unit save(Unit unit) {
-        jdbcTemplate.update(
-                ADD_UNIT, unit.getId(), unit.getType());
+    public long save(Unit unit) {
+        unit.setId(Optional.ofNullable(jdbcTemplate.queryForObject(
+                ADD_UNIT, Long.class, unit.getKind())).stream().findAny().orElseThrow());
 
-        return unit;
+        return unit.getId();
     }
 
     public void update(Unit unit, long id) {
-        jdbcTemplate.update(UPDATE, unit.getType(), id);
+        jdbcTemplate.update(UPDATE, unit.getKind(), id);
     }
 
-    @Override
-    public void delete(long unit) {
-        jdbcTemplate.update(DELETE_UNIT, unit);
+    public int delete(long unit) {
+        return jdbcTemplate.update(DELETE_UNIT, unit);
     }
 
 }

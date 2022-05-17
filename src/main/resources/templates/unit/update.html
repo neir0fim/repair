@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+              rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+              crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+                crossorigin="anonymous"></script>
+
+        <script src = "https://ajax.aspnetcdn.com/ajax/knockout/knockout-3.4.2.debug.js"
+                type = "text/javascript"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <title>UPDATE UNIT</title>
+
+    </head>
+
+    <body class="bg-dark text-white">
+        <h2>UNIT UPDATE</h2>
+        <form>
+            <input type="text" name="kind" placeholder="type" style="margin: 10px" id="type">
+            <br>
+
+            <br>
+            <button onclick = "gfg_RunUn()" id="update_button" style="margin: 10px">
+                UPDATE
+            </button>
+        </form>
+
+        <br><br><br>
+        <a href="/admin" class="btn btn-info" role="button" style="margin: 5px">BACK TO MENU</a>
+
+
+        <script>
+            function gfg_RunUn() {
+                const currentLocation = window.location.pathname;
+                const unit_id = currentLocation.replace('/units/update/', '');
+
+                $.ajax('/units/api/' + unit_id, {
+                    type: 'PATCH',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        kind: document.getElementById('type').value,
+                    }),
+                    success: function (data) {
+                        alert(data.responseText)
+                    },
+                    error: function (data) {
+                        alert(data.responseText)
+                    }}
+                )}
+        </script>
+
+
+    </body>
+</html>

@@ -9,13 +9,13 @@ public class Person {
     private String name;
     private String pass;
     private ApplicationUserRole role;
-    private long unitId;
+    private String type;
     private boolean enabled;
 
-    public Person(String name, String pass, boolean enabled, long unitId) {
+    public Person(String name, String pass, boolean enabled, String type) {
         this.name = name;
         this.pass = pass;
-        this.unitId = unitId;
+        this.type = type;
         this.enabled = enabled;
     }
 
@@ -43,15 +43,16 @@ public class Person {
         return role;
     }
 
-    public long getUnitId() {
-        return unitId;
-    }
 
     public void setRole(ApplicationUserRole role) {
         this.role = role;
     }
 
-    public void setUnitId(long unitId) {
-        this.unitId = unitId;
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

@@ -1,6 +1,6 @@
-INSERT INTO users (username, password, enabled, unit_id)
+INSERT INTO users (username, password, enabled, type)
 VALUES (
-        'Sergej', '$2a$05$79N.4Yi9SL6fW6muJCNIkeVViNu19ksATLiRVt/U7XnNTPPpL7quC', true, 5
+        'Sergej', '$2a$05$79N.4Yi9SL6fW6muJCNIkeVViNu19ksATLiRVt/U7XnNTPPpL7quC', true, 'ADMIN'
        );
 
 INSERT INTO authorities (username, authority)
@@ -24,9 +24,9 @@ VALUES (
        );
 
 
-INSERT INTO users (username, password, enabled, unit_id)
+INSERT INTO users (username, password, enabled, type)
 VALUES (
-           'Michail', '$2a$05$OtfOySt8sAhXfJBUMS8qmelh3xPXUoTxQB5hYWcYsQJ.zaK.0Iwh.', true, 1
+           'Michail', '$2a$05$OtfOySt8sAhXfJBUMS8qmelh3xPXUoTxQB5hYWcYsQJ.zaK.0Iwh.', true, 'RTM'
        );
 
 INSERT INTO authorities (username, authority)
@@ -55,9 +55,9 @@ VALUES (
 
 
 
-INSERT INTO users (username, password, enabled, unit_id)
+INSERT INTO users (username, password, enabled, type)
 VALUES (
-           'Oleg', '$2a$05$76G7zshIJxofVzxwuo3ywe5/QoQ6/20sciEtEs4rB7vZmePzQSS8C', true, 2
+           'Oleg', '$2a$05$76G7zshIJxofVzxwuo3ywe5/QoQ6/20sciEtEs4rB7vZmePzQSS8C', true, 'SUPP'
        );
 
 INSERT INTO authorities (username, authority)

@@ -1,20 +1,21 @@
 package com.kuzin.web.rest;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
 import com.kuzin.entity.Repair;
 import com.kuzin.service.service.RepairService;
+import java.io.IOException;
 import java.util.List;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.EntityModel;
+import org.springframework.expression.AccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 /**repair controller class.*/
 
 @RestController
-@RequestMapping("/repair")
+@RequestMapping("/repair/api")
 public class RepairController {
 
     RepairService service;
@@ -25,44 +26,46 @@ public class RepairController {
     }
 
 
+    @PostMapping()
+    public void doPost(@ModelAttribute Repair repair, HttpServletResponse response)
+            throws AccessException, IOException {
+        long id = service.save(repair);
+
+        response.sendRedirect("/repair/get/" + id);
+    }
+
+    @GetMapping("/article/{id}")
+    public List<Repair> getAll(@PathVariable ("id") long id)
+            throws AccessException {
+        return service.getRepairArticle(id);
+    }
 
     @GetMapping("/{id}")
-    public EntityModel<Repair> get(@PathVariable("id") long id) {
-        Repair result = service.get(id);
-
-        return EntityModel.of(result,
-                linkTo(methodOn(RepairController.class).getAll()).withSelfRel());
-    }
-
-
-    @PostMapping()
-    public EntityModel<Repair> doPost(@RequestBody Repair repair) {
-        Repair result = service.save(repair);
-
-        return EntityModel.of(result,
-                linkTo(methodOn(RepairController.class).get(result.getId())).withSelfRel());
-    }
-
-
-    @GetMapping()
-    public CollectionModel<EntityModel<Repair>> getAll() {
-        List<EntityModel<Repair>> result = service.getAll().stream().map(
-                repair -> EntityModel.of(repair, linkTo(methodOn(RepairController.class)
-                        .get(repair.getId())).withSelfRel())).toList();
-
-
-        return CollectionModel.of(result, linkTo(methodOn(RepairController.class)
-                .getAll()).withSelfRel());
+    public Repair get(@PathVariable("id") long id) throws AccessException {
+        return service.get(id);
     }
 
     @DeleteMapping("/{id}")
-    public void doDelete(@PathVariable("id") long id) {
-        service.delete(id);
+    public ResponseEntity<String> doDelete(@PathVariable("id") long id) throws AccessException {
+        int result = service.delete(id);
+
+        if (result != 1) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("wrong user input");
+        } else {
+            return ResponseEntity.ok("repair " + id + " was deleted");
+        }
     }
 
     @PatchMapping("/{id}")
-    public void doUpdate(@RequestBody Repair repair, @PathVariable("id") long id) {
-        service.update(repair, id);
+    public ResponseEntity<String> doUpdate(@RequestBody Repair repair, @PathVariable("id") long id)
+            throws AccessException {
+        int result = service.update(repair, id);
+
+        if (result != 1) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("wrong user input");
+        } else {
+            return ResponseEntity.ok("repair " + id + " was updated");
+        }
     }
 
 }

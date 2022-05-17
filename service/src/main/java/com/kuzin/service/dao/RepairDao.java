@@ -25,51 +25,70 @@ public class RepairDao {
 
     private static final String SELECT_REPAIR_USING_ID = "SELECT * from "
             + "repair WHERE repair_id = ? ";
-    private static final String SELECT_ALL_REPAIR = "SELECT * from repair";
     private static final String INSERT_INTO_REPAIR = "INSERT INTO repair "
             + "(description, article, type) values (?, ?, ?) returning repair_id";
     private static final String SELECT_FROM_TYPE = "Select type from "
             + "article where article.article = ?";
     private static final String DELETE_REPAIR = "DELETE from repair where repair_id = ?";
-    private static final String SELECT_FOR_ARTICLE = "SELECT repair_id from repair";
+    private static final String SELECT_FOR_ARTICLE = "SELECT repair_id from "
+            + "repair where article = ?";
     private static final String UPDATE = "UPDATE repair set description = ?, article = ?,"
             + " type = ? where repair_id = ?";
+    private static final String GET_REPAIR_FOR_ARTICLE = "SELECT * from repair where article = ?";
+    private static final String GET_REPAIR_TYPE = "SELECT type from repair where repair_id = ?";
+    private static final String GET_ARTICLE_TYPE = "SELECT article.article"
+            + " from article where id = ?";
 
     public Repair get(long id) {
+
         return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_REPAIR_USING_ID,
                 new RepairMapper(), id)).stream().findAny().orElseThrow();
     }
 
-    public List<Repair> getAll() {
-        return new ArrayList<>(jdbcTemplate.query(SELECT_ALL_REPAIR, new RepairMapper()));
+    public List<Repair> getRepairForArticle(long id) {
+        String type = getArticleType(id);
+
+        return new ArrayList<>(jdbcTemplate.query(GET_REPAIR_FOR_ARTICLE,
+                new RepairMapper(), type));
     }
 
-    public Repair save(Repair repair) {
-        Repair result = new Repair();
-        String type = jdbcTemplate.queryForObject(SELECT_FROM_TYPE, String.class,
-                repair.getArticle());
+    public long save(Repair repair) {
+        String type = getType(repair.getArticle());
 
-        result.setId(Optional.ofNullable(jdbcTemplate.queryForObject(INSERT_INTO_REPAIR,
+
+        return Optional.ofNullable(jdbcTemplate.queryForObject(INSERT_INTO_REPAIR,
                 Long.class, repair.getDescription(),
-                repair.getArticle(), type)).stream().findAny().orElseThrow());
-        result.setDescription(repair.getDescription());
-        result.setArticle(repair.getArticle());
-        result.setType(type);
-
-        return result;
+                repair.getArticle(), type)).stream().findAny().orElseThrow();
     }
 
-    public void update(Repair repair, long id) {
-        jdbcTemplate.update(UPDATE, repair.getDescription(),
-                repair.getArticle(), repair.getType(), id);
+    public int update(Repair repair, long id) {
+        return jdbcTemplate.update(UPDATE, repair.getDescription(),
+                repair.getArticle(), getTypeById(id), id);
     }
 
-    public void delete(long id) {
-        jdbcTemplate.update(DELETE_REPAIR, id);
+    public int delete(long id) {
+        return jdbcTemplate.update(DELETE_REPAIR, id);
     }
 
-    public List<Integer> repairForArticle(long id) {
-        return new ArrayList<>(jdbcTemplate.queryForObject(SELECT_FOR_ARTICLE, Integer.class, id));
+    public List<Integer> repairForArticle(String article) {
+        return new ArrayList<>(jdbcTemplate.queryForList(SELECT_FOR_ARTICLE,
+                Integer.class, article));
     }
+
+
+
+    private String getType(String article) {
+        return jdbcTemplate.queryForObject(SELECT_FROM_TYPE, String.class,
+                article);
+    }
+
+    private String getTypeById(long id) {
+        return jdbcTemplate.queryForObject(GET_REPAIR_TYPE, String.class, id);
+    }
+
+    public String getArticleType(long id) {
+        return jdbcTemplate.queryForObject(GET_ARTICLE_TYPE, String.class, id);
+    }
+
 
 }

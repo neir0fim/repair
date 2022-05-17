@@ -30,6 +30,9 @@ public class PersonDao extends JdbcDaoImpl {
     private static final String UNLOCK = "UPDATE users SET enabled = true where username = ?";
     private static final String ADD_USER = "INSERT INTO users values (?, ?, ?, ?)";
     private static final String ADD_AUTHORITY = "INSERT INTO authorities values (?, ?)";
+    private static final String DELETE_AUTHORITY = "DELETE from authorities where username = ?";
+    private static final String UPDATE_PERSON = "UPDATE users SET password = ?,"
+            + "type = ? where username = ?";
 
 
     @Autowired
@@ -45,13 +48,14 @@ public class PersonDao extends JdbcDaoImpl {
         String username = user.getName();
 
         jdbcTemplate.update(ADD_USER, username,
-                 passwordEncoder.encode(user.getPass()), true, user.getUnitId());
+                 passwordEncoder.encode(user.getPass()), true, user.getType());
 
         Set<SimpleGrantedAuthority> authorities = user.getRole().getGrantedAuth();
 
         for (SimpleGrantedAuthority authority : authorities) {
             jdbcTemplate.update(ADD_AUTHORITY, username, authority.toString());
         }
+
     }
 
     public List<UserDetails> getUsers() {
@@ -66,8 +70,8 @@ public class PersonDao extends JdbcDaoImpl {
     }
 
 
-    public void deletePerson(String name) {
-        jdbcTemplate.update(DELETE_PERSON, name);
+    public int deletePerson(String name) {
+        return jdbcTemplate.update(DELETE_PERSON, name);
     }
 
     public void block(String name) {
@@ -76,6 +80,19 @@ public class PersonDao extends JdbcDaoImpl {
 
     public void unlock(String name) {
         jdbcTemplate.update(UNLOCK, name);
+    }
+
+
+    public void update(Person person, String name) {
+        jdbcTemplate.update(UPDATE_PERSON, passwordEncoder.encode(person.getPass()),
+                person.getType(), name);
+
+        jdbcTemplate.update(DELETE_AUTHORITY, name);
+        Set<SimpleGrantedAuthority> authorities = person.getRole().getGrantedAuth();
+
+        for (SimpleGrantedAuthority authority : authorities) {
+            jdbcTemplate.update(ADD_AUTHORITY, name, authority.toString());
+        }
     }
 
 

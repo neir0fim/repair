@@ -33,15 +33,16 @@ public class PersonService {
 
     public void addUser(Person user) {
         validateString(user.getName());
+        validateString(user.getPass());
 
         personDao.addUser(user);
     }
 
 
-    public void delete(String name) {
+    public int delete(String name) {
         validateString(name);
 
-        personDao.deletePerson(name);
+        return personDao.deletePerson(name);
     }
 
 
@@ -55,6 +56,14 @@ public class PersonService {
         validateString(name);
 
         personDao.unlock(name);
+    }
+
+    public void updatePerson(Person person, String name) {
+        validateString(name);
+        validateString(person.getPass());
+
+
+        personDao.update(person, name);
     }
 
 }

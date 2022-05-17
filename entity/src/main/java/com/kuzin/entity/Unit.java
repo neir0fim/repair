@@ -7,12 +7,12 @@ import java.util.List;
 public class Unit {
 
     long id;
-    String type;
+    String kind;
     List<Article> articleList;
 
-    public Unit(long id, String type) {
+    public Unit(long id, String kind) {
         this.id = id;
-        this.type = type;
+        this.kind = kind;
     }
 
     public Unit() {
@@ -27,12 +27,12 @@ public class Unit {
         this.id = id;
     }
 
-    public String getType() {
-        return type;
+    public String getKind() {
+        return kind;
     }
 
-    public void setType(String  type) {
-        this.type = type;
+    public void setKind(String kind) {
+        this.kind = kind;
     }
 
     public List<Article> getArticleList() {
@@ -47,7 +47,7 @@ public class Unit {
     @Override
     public String toString() {
         return "Unit{"
-                + "type=" + type
+                + "type=" + kind
                 + ", articleList=" + articleList + "}";
     }
 }

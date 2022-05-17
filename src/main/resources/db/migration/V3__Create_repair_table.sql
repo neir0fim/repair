@@ -6,6 +6,8 @@ CREATE TABLE IF NOT EXISTS Repair (
     type varchar NOT NULL ,
 
 
-    FOREIGN KEY (article) REFERENCES article (article) on delete set null
+    FOREIGN KEY (article) REFERENCES article (article) on delete set null,
+    FOREIGN KEY (article) REFERENCES article (article) on update cascade
+
 
 )

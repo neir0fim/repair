@@ -11,7 +11,7 @@ public class UnitMapper implements RowMapper<Unit> {
     public Unit mapRow(ResultSet rs, int rowNum) throws SQLException {
         Unit result = new Unit();
         result.setId(rs.getInt(1));
-        result.setType(rs.getString(2));
+        result.setKind(rs.getString(2));
 
 
         return result;

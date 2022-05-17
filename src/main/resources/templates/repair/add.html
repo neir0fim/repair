@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http:thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>ADD Material</title>
+    </head>
+
+    <body>
+        <form th:action="@{/wMaterial/{id}(id = ${id})}" th:object="${materialForm}" method="post">
+            <h1>Welcome</h1>
+
+            <div th:each="material : ${materials}">
+                <div class="form-group">
+                    <label th:value="${material}" th:text="${material.getName()}">Property</label>
+                    <input class="form-control"
+                           type="text" th:value="${material.amount}" id="amount" name="amount" />
+                </div>
+            </div>
+
+
+
+            <button type="submit">send to controller</button>
+        </form>
+    </body>
+</html>

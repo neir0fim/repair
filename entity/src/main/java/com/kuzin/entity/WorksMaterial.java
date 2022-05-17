@@ -15,6 +15,18 @@ public class WorksMaterial extends Material {
         this.repairId = repairId;
     }
 
+    public WorksMaterial(Material material) {
+        super(material.cod, material.name, material.getCodDk(),
+                material.uom, material.value);
+    }
+
+    public WorksMaterial(Material material, double amount) {
+        super(material.cod, material.name, material.getCodDk(),
+                material.uom, material.value);
+        this.amount = amount;
+        cost = value * amount;
+    }
+
     public WorksMaterial() {
 
     }

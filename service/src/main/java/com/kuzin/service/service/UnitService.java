@@ -1,5 +1,7 @@
 package com.kuzin.service.service;
 
+import static com.kuzin.service.service.addition.Validation.*;
+
 import com.kuzin.entity.Unit;
 import com.kuzin.service.dao.ArticleDao;
 import com.kuzin.service.dao.UnitDao;
@@ -11,7 +13,7 @@ import org.springframework.stereotype.Service;
 /**unit service class.*/
 
 @Service
-public class UnitService implements ServiceEntity<Unit> {
+public class UnitService {
 
     UnitDao dao;
     ArticleDao articleDao;
@@ -23,18 +25,31 @@ public class UnitService implements ServiceEntity<Unit> {
         this.articleDao = articleDao;
     }
 
-    @Override
     public Unit get(long id) {
+        validId(id);
+
         Unit result = dao.get(id);
         result.setArticleList(articleDao.getForUnit(id));
 
         return result;
     }
 
-    @Override
+    public Unit getUnit(String input) {
+        validateString(input);
+        long id = Long.getLong(input);
+
+
+
+
+        Unit result = dao.get(id);
+        result.setArticleList(articleDao.getForUnit(id));
+
+        return result;
+    }
+
     public List<Unit> getAll() {
         List<Unit> result = dao.getAll();
-        Validation.validateList(result);
+        validateList(result);
 
         for (Unit unit : result) {
             unit.setArticleList(articleDao.getForUnit(unit.getId()));
@@ -43,17 +58,18 @@ public class UnitService implements ServiceEntity<Unit> {
         return result;
     }
 
-    @Override
-    public Unit save(Unit unit) {
+    public long save(Unit unit) {
         return dao.save(unit);
     }
 
-    @Override
-    public void delete(long t) {
-        dao.delete(t);
+
+    public int delete(long t) {
+        return dao.delete(t);
     }
 
     public void update(Unit unit, long id) {
+        Validation.validateString(unit.getKind());
+
         dao.update(unit, id);
     }
 }

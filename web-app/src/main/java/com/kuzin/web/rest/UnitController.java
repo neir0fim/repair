@@ -1,20 +1,20 @@
 package com.kuzin.web.rest;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
 import com.kuzin.entity.Unit;
 import com.kuzin.service.service.UnitService;
+import java.io.IOException;
 import java.util.List;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.EntityModel;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 /**units controller class.*/
 
 @RestController
-@RequestMapping("/units")
+@RequestMapping("/units/api")
 public class UnitController {
 
     UnitService service;
@@ -25,39 +25,43 @@ public class UnitController {
     }
 
     @GetMapping("/{id}")
-    public EntityModel<Unit> getById(@PathVariable("id") long id) {
-        return EntityModel.of(service.get(id),
-                linkTo(methodOn(UnitController.class).getById(id)).withSelfRel(),
-                linkTo(methodOn(ArticleController.class).get()).withRel("/articles"));
-
-
+    public Unit getById(@PathVariable("id") long id) {
+        return service.get(id);
     }
 
     @GetMapping()
-    public CollectionModel<EntityModel<Unit>> get() {
-        List<EntityModel<Unit>> units = service.getAll().stream().map(
-                unit -> EntityModel.of(unit, linkTo(methodOn(UnitController.class)
-                        .getById(unit.getId())).withSelfRel())).toList();
 
-
-        return CollectionModel.of(units,
-                linkTo(methodOn(UnitController.class).get()).withSelfRel());
+    public List<Unit> get() {
+        return service.getAll();
     }
 
 
     @PostMapping
-    public EntityModel<Unit> saveUnit(@RequestBody Unit unit) {
-        return EntityModel.of(service.save(unit));
+    public void saveUnit(@ModelAttribute Unit unit, HttpServletResponse response)
+            throws IOException {
+        long id = service.save(unit);
+
+
+        response.sendRedirect("/units/get/" + id);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable ("id") long id) {
-        service.delete(id);
+    public ResponseEntity<String> delete(@PathVariable ("id") long id) {
+        int result = service.delete(id);
+
+        if (result != 1) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("wrong user input");
+        } else {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body("unit with id: " + id + " was deleted");
+        }
     }
 
     @PatchMapping("/{id}")
-    public void update(@RequestBody Unit unit, @PathVariable ("id") long id) {
+    public ResponseEntity<String> update(@RequestBody Unit unit, @PathVariable ("id") long id) {
         service.update(unit, id);
+
+        return ResponseEntity.ok("unit with id: " + id + " was updated");
     }
 
 

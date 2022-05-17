@@ -1,17 +1,18 @@
 package com.kuzin.service.service;
 
 import java.util.List;
+import org.springframework.expression.AccessException;
 
 /**service interface.*/
 public interface ServiceEntity<T> {
 
-    T get(long id);
+    T get(long id) throws AccessException;
 
     List<T> getAll();
 
-    T save(T t);
+    void save(T t) throws AccessException;
 
-    void delete(long t);
+    void delete(long t) throws AccessException;
 
 
 }
