@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 /** mvc controller class.*/
 @Controller
 public class MvcController {
-
-
     UnitService service;
     ArticleService articleService;
 
