@@ -26,14 +26,15 @@ jobs:
     - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
-        java-version: '11'
+        java-version: '17'
         distribution: 'temurin'
+        
         
     - name: grand execute
       run: chmod +x gradlew
 
-    - name: assemble with Gradle
-      run: ./gradlew assemble
-
-    - name: test
+    - name: Build with Gradle
+      run: ./gradlew build
+            
+    - name: test clases
       run: ./gradlew test
