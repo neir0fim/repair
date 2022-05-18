@@ -18,37 +18,29 @@
     </head>
 
     <body class="bg-dark text-white">
-    <H2 style="margin: 20px">FUNCTIONS</H2>
+    <div style="margin: 20px">
+        <H2 style="margin: 20px">FUNCTIONS</H2>
 
 
-    <div class="input-group mb-3" style="margin: 10px">
-        <form onSubmit="return getUnit();">
-            <input type="number" id="user-get" placeholder="GET BY ID">
-            <input type="submit" value="GET">
-        </form>
-    </div>
+        <div class="input-group mb-3">
+            <label>
+                <input type="number" id="user-get" placeholder="GET BY ID">
+                <button onclick = "getUnit()" id="get_button" style="margin: 5px"
+                        class="btn btn-outline-warning">
+                    GET
+                </button>
+            </label>
+        </div>
 
-
-    <script>
-        function getUnit()
-        {
-            var url = "/units/get/" + document.getElementById("user-get").value;
-            location.href = url;
-            return false;
-        }
-    </script>
-
-
-    <section class="js">
-        <div class="input-group mb-3" style="margin: 10px">
-            <form>
+        <div class="input-group mb-3">
+            <label>
                 <input type="number" id="deleted_url"  placeholder="DELETE BY ID">
-                <button onclick = "gfg_RunUn()" id="delete_button">
+                <button onclick = "gfg_RunUn()" id="delete_button" class="btn btn-outline-warning">
                     DELETE
                 </button>
-            </form>
+            </label>
         </div>
-    </section>
+
 
 
         <H2 style="margin: 20px">ALL UNITS</H2>
@@ -62,14 +54,16 @@
                     <label> name:
                         <span data-bind="text:kind"></span>
                     </label>
-
                     <br>
                 </li>
             </ul>
         </div>
+        <br><br>
+        <a href="/units/new" class="btn btn-secondary" role="button" style="margin: 5px">ADD UNIT</a>
+        <br>
+        <a href="/admin" class="btn btn-secondary" role="button" style="margin: 5px">BACK TO MENU</a>
+    </div>
 
-    <br><br><br>
-    <a href="/admin" class="btn btn-info" role="button" style="margin: 5px">BACK TO MENU</a>
 
         <script type="text/javascript">
             $(document).ready(function () {
@@ -102,6 +96,14 @@
 
             function gfg_RunUn() {
                 const username = document.getElementById('deleted_url').value
+                if (username.length === 0) {
+                    return alert('empty id')
+                }
+
+                if (username < 0) {
+                    return alert('input must be greater than 0')
+                }
+
                 $.ajax("/units/api/" + username, {
                     type: 'DELETE',
                     contentType: 'application/json',
@@ -113,6 +115,23 @@
                         alert(data.responseText)
                     }
                 });
+                $(document).ajaxStop(function(){
+                    window.location.reload();
+                });
+            }
+
+            function getUnit() {
+                const id  = document.getElementById("user-get").value
+                if(id.length === 0) {
+                    return alert("empty id")
+                }
+
+                if (id <= 0) {
+                    return alert("input must be greater than 0")
+                }
+
+                location.href = "/units/get/" + id;
+                return false;
             }
         </script>
 

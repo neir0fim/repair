@@ -9,38 +9,90 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
                 crossorigin="anonymous"></script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <title>New person</title>
 
     </head>
 
     <body class="bg-dark text-white">
+    <div style="margin: 20px">
         <h2>ENTER USER PARAMETER</h2>
-        <section class="js">
+    </div>
+
+
+    <div class="input-group mb-3" style="margin: 20px">
             <div>
-                <form th:method="POST" th:action="@{/persons/api/}" th:object="${person}">
-                    <input type="text" name="name" id="username" placeholder="NAME" style="margin: 10px">
+                <label>
+                    <input type="text" name="name" id="username" placeholder="NAME"
+                           style="margin: 10px">
                     <br>
 
-                    <input type="text" name="pass" placeholder="PASS" id="pass" style="margin: 10px">
+                    <input type="text" name="pass" placeholder="PASS" id="pass"
+                           style="margin: 10px">
                     <br>
 
-                    <select name="type" style="margin: 10px">
+                    <select name="type" style="margin: 10px"  id="user_type">
                         <option th:each="unit : ${units}" th:value = "${unit.getKind()}"
-                                th:text = "${unit.getKind()}" id="user_type">
+                                th:text = "${unit.getKind()}">
                         </option>
                     </select>
 
-                    <select name="role" style="margin: 10px">
-                        <option th:each="role : ${roles}" th:value = "${role}"
-                                id="user_role" th:text = "${role}">
+                    <select name="role" style="margin: 10px" id="user_role">
+                        <option th:each="role : ${roles}" th:value = "${role}" th:text = "${role}" >
                         </option>
                     </select>
 
                     <br>
-                    <input type="submit" value="CREATE" id = "reset-button" style="margin: 10px">
+                    <button onclick = "gfg_RunUn()" id="delete_button" style="margin: 5px"
+                            class="btn btn-outline-warning">
+                        CREATE
+                    </button>
+                </label>
 
-                </form>
+                <br>
+                <a href="/person" class="btn btn-secondary"
+                   role="button" style="margin: 5px">GO TO PERSONS</a>
             </div>
-        </section>
+        </div>
+
+        <script>
+                function gfg_RunUn() {
+                    const name = document.getElementById('username').value
+                    const pass = document.getElementById('pass').value
+
+
+                    if (name.length === 0) {
+                        return alert('empty name field')
+                    }
+
+                    if (pass.length === 0) {
+                        return alert('empty pass field')
+                    }
+
+
+                    $.ajax('/persons/api/', {
+                        type: 'POST',
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            name: name,
+                            pass: pass,
+                            type: document.getElementById('user_type').value,
+                            role: document.getElementById('user_role').value
+                        }),
+                        success:function(data) {
+                            alert('user was added')
+                        },
+                        error: function (data) {
+                            if (data.status === 200) {
+                                window.location.href = "/person/get/" + data.responseText;
+                            } else {
+                                alert(data.responseText)
+                            }
+                        }
+                    })
+                }
+        </script>
     </body>
 </html>

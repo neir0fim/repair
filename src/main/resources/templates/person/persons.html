@@ -18,104 +18,116 @@
 </head>
 
 <body class="bg-dark text-white">
-<H2 style="margin: 20px">FUNCTIONS</H2>
+    <div style="margin: 20px">
+        <H2 style="margin: 20px">FUNCTIONS</H2>
 
 
-    <div class="input-group mb-3" style="margin: 10px">
-        <form onSubmit="return getUser();">
-            <input type="text" id="person-get" placeholder="GET BY NAME">
-            <input type="submit" value="GET">
-        </form>
-    </div>
-
-
-    <section class="js">
         <div class="input-group mb-3" style="margin: 10px">
-            <form>
+            <label>
+                <input type="text" id="person-get" placeholder="GET BY NAME">
+                <button onclick = "getUser()" id="update_button" style="margin: 5px"
+                        class="btn btn-outline-warning" >
+                    GET
+                </button>
+            </label>
+        </div>
+
+
+
+        <div class="input-group mb-3" style="margin: 10px">
+            <label>
                 <input type="text" id="deleted_url"  placeholder="DELETE BY NAME">
-                <button onclick = "gfg_RunUn()" id="delete_button">
+                <button onclick = "gfg_RunUn()" id="delete_button" style="margin: 5px"
+                        class="btn btn-outline-warning">
                     DELETE
                 </button>
-            </form>
+            </label>
         </div>
-    </section>
-
-    <div>
-        <ul>
-            <lable>ALL PERSONS</lable>
-            <li data-bind="foreach:tasks">
-
-                <label> user:
-                    <span data-bind="text:value"></span>
-                </label>
-
-                <label>
-                    <span data-bind="text:type"></span>
-                </label>
 
 
-                <br>
-            </li>
-        </ul>
+        <div>
+            <ul>
+                <lable>ALL PERSONS</lable>
+                <li data-bind="foreach:tasks">
+                    <label> user:
+                        <span data-bind="text:value"></span>
+                    </label>
+                    <label>
+                        <span data-bind="text:type"></span>
+                    </label>
+                    <br>
+                </li>
+            </ul>
+        </div>
+        <br>
+        <a href="/users" class="btn btn-secondary" role="button" style="margin: 5px">ADD PERSON</a>
+        <br>
+        <a href="/admin" class="btn btn-secondary" role="button" style="margin: 5px">BACK TO MENU</a>
     </div>
 
+        <script type="text/javascript">
+            $(document).ready(function () {
+                (function (ko) {
+                    let CheckMessage = function () {
+                        const self = this;
+                        this.newTask = ko.observable();
+                        this.tasks = ko.observableArray();
 
-    <br><br><br>
-    <a href="/admin" class="btn btn-info" role="button" style="margin: 5px">BACK TO MENU</a>
+                        $.ajax("/persons/api/", {
+                            type:'GET',
+                            dataType: 'json',
+                            contentType: 'application/json',
+                            success: function (persons) {
 
+                                persons.forEach(person => {
+                                    var key = person.username;
+                                    const arr = person.authorities[0].authority;
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            (function (ko) {
-                let CheckMessage = function () {
-                    const self = this;
-                    this.newTask = ko.observable();
-                    this.tasks = ko.observableArray();
+                                    self.tasks.push({value:key, type:arr})
 
-                    $.ajax("/persons/api/", {
-                        type:'GET',
-                        dataType: 'json',
-                        contentType: 'application/json',
-                        success: function (persons) {
+                                })
+                            }
 
-                            persons.forEach(person => {
-                                var key = person.username;
-                                const arr = person.authorities[0].authority;
+                        })
+                    }
+                    ko.applyBindings(new CheckMessage());
+                }) (ko)
+            })
 
-                                self.tasks.push({value:key, type:arr})
+            function gfg_RunUn() {
+                const username = document.getElementById('deleted_url').value
 
-                            })
-                        }
-
-                    })
+                if (username.length === 0) {
+                    return alert('empty name for delete function')
                 }
-                ko.applyBindings(new CheckMessage());
-            }) (ko)
-        })
 
-        function gfg_RunUn() {
-            const username = document.getElementById('deleted_url').value
-            $.ajax("/persons/api/" + username, {
-                type: 'DELETE',
-                contentType: 'application/json',
-                success: function (data) {
-                    console.log(data)
-                    alert(data)
-                },
-                error: function (data) {
-                    alert(data.responseText)
+                $.ajax("/persons/api/" + username, {
+                    type: 'DELETE',
+                    contentType: 'application/json',
+                    success: function (data) {
+                        console.log(data)
+                        alert(data)
+                    },
+                    error: function (data) {
+                        alert(data.responseText)
+                    }
+                });
+
+                $(document).ajaxStop(function(){
+                    window.location.reload();
+                });
+            }
+
+            function getUser() {
+                const username = document.getElementById("person-get").value
+
+                if (username.length === 0) {
+                    return alert('empty name for get function')
                 }
-            });
-        }
 
-        function getUser()
-        {
-            var url = "/person/get/" + document.getElementById("person-get").value;
-            location.href = url;
-            return false;
-        }
-    </script>
-
+                location.href = "/person/get/" + username;
+                return false;
+            }
+        </script>
     </body>
-
 </html>

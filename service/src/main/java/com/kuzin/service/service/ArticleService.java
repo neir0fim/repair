@@ -58,11 +58,12 @@ public class ArticleService {
         return result;
     }
 
-    public void update(Article article, long id) {
+    public int update(Article article, long id) {
         validateString(article.getValue());
         validateString(article.getType());
+        validId(id);
 
-        articleDao.update(article, id);
+        return articleDao.update(article, id);
     }
 
     public Article save(Article article) {
@@ -78,7 +79,7 @@ public class ArticleService {
         return articleDao.delete(t);
     }
 
-    public List<WorksMaterial> getReport(long id) throws AccessException {
+    public List<WorksMaterial> getReport(long id) {
         List<WorksMaterial> materials = getList(id);
 
         Map<Integer, Double> such = materials.stream().collect(Collectors
@@ -108,7 +109,7 @@ public class ArticleService {
     }
 
 
-    private List<WorksMaterial> getList(long id) throws AccessException {
+    private List<WorksMaterial> getList(long id) {
         List<Integer> repair = repairDao.repairForArticle(articleDao.get(id).getValue());
         List<WorksMaterial> materials = new ArrayList<>();
 

@@ -20,7 +20,7 @@ public class ArticleMvcController {
     }
 
     @GetMapping("/articles")
-    public String getUnits() {
+    public String getArticles() {
 
         return "article/articles";
     }

@@ -17,57 +17,66 @@
     </head>
 
     <body class="bg-dark text-white">
-       <div style="margin: 20px">
-           <h2>UPDATE MATERIAL PARAMETER</h2>
-           <div class="input-group mb-3" style="margin: 10px">
-               <form>
-                   <input type="text" name="name" id="name"
-                          placeholder="name" style="margin: 10px" class="form-control" required="">
+        <div style="margin: 20px">
+            <h2>UPDATE MATERIAL PARAMETER</h2>
+            <div class="input-group mb-3">
+                <label>
+                    <input type="text" name="name" id="name"
+                           placeholder="name" style="margin-bottom: 10px">
+                    <br>
 
-                   <input type="text" name="codDk" id="codDk"
-                          placeholder="codDk" style="margin: 10px" class="form-control" required="">
+                    <input type="text" name="codDk" id="codDk"
+                           placeholder="codDk" style="margin-bottom: 10px">
+                    <br>
 
-                   <input type="text" name="uom" id="uom"
-                          placeholder="uom" style="margin: 10px" class="form-control" required="">
+                    <input type="text" name="uom" id="uom"
+                           placeholder="uom" style="margin-bottom: 10px">
+                    <br>
 
-                   <input type="number" name="value" id="value" step="0.01"
-                          placeholder="value" style="margin: 10px"class="form-control" required="">
+                    <input type="number" name="value" id="value" step="0.01"
+                           placeholder="value" style="margin-bottom: 10px">
+                    <br>
+
+                    <button onclick = "gfg_RunUn()" id="update_button"  class="btn btn-outline-warning">
+                        UPDATE
+                    </button>
+                </label>
+            </div>
 
 
-                   <button onclick = "gfg_RunUn()" id="update_button" style="margin: 10px">
-                       UPDATE
-                   </button>
-               </form>
-           </div>
+            <div>
+                <label> PREVIOUS DATA
+                    <span id="unit_id"></span>
+                    <br>
+                    <span id="unit_kind"></span>
+                    <br>
+                    <span id="material_name"></span>
+                    <br>
+                    <span id="material_uom"></span>
+                    <br>
+                    <span id="material_value"></span>
+                    <br>
+                </label>
+            </div>
 
+            <br>
+            <a href="/supp" class="btn btn-secondary"
+               role="button" style="margin: 5px">BACK TO MENU</a>
+            <br>
+            <a href="/materials" class="btn btn-secondary"
+               role="button" style="margin: 5px">BACK TO MATERIALS</a>
 
-           <div>
-               <h2>previous data:</h2>
-               <span id="unit_id"></span>
-               <br>
-               <span id="unit_kind"></span>
-               <br>
-               <span id="material_name"></span>
-               <br>
-               <span id="material_uom"></span>
-               <br>
-               <span id="material_value"></span>
-               <br>
-
-           </div>
-
-           <br><br><br>
-           <a href="/supp" class="btn btn-info" role="button" style="margin: 5px">BACK TO MENU</a>
+        </div>
 
            <script>
                const currentLocation = window.location.pathname;
                const username = currentLocation.replace('/materials/update/', '/');
 
-               var span1 = document.getElementById("unit_id");
-               var span2 = document.getElementById("unit_kind");
-               var span3 = document.getElementById("material_name");
-               var span4 = document.getElementById("material_uom");
-               var span5 = document.getElementById("material_value");
+               const span1 = document.getElementById("unit_id");
+               const span2 = document.getElementById("unit_kind");
+               const span3 = document.getElementById("material_name");
+               const span4 = document.getElementById("material_uom");
+               const span5 = document.getElementById("material_value");
 
                $(document).ready(function () {
                    $.ajax('/materials/api' + username, {
@@ -89,16 +98,35 @@
                })
 
                function gfg_RunUn() {
+                   const name = document.getElementById('name').value
+                   const codDk = document.getElementById('codDk').value
+                   const uom = document.getElementById('uom').value
+                   const value = document.getElementById('value').value
+
+
+                   if(name.length === 0) {
+                       return alert('empty name')
+                   }
+                   if(codDk.length === 0) {
+                       return alert('empty codDk')
+                   }
+                   if(uom.length === 0) {
+                       return alert('empty uom')
+                   }
+                   if(value.length === 0) {
+                       return alert('empty value')
+                   }
+
+
                    $.ajax('/materials/api' + username, {
                        type: 'PATCH',
                        dataType: 'json',
                        contentType: 'application/json',
                        data: JSON.stringify({
-                           cod: document.getElementById('cod').value,
-                           name: document.getElementById('name').value,
-                           codDk: document.getElementById('codDk').value,
-                           uom: document.getElementById('uom').value,
-                           value: document.getElementById('value').value
+                           name: name,
+                           codDk: codDk,
+                           uom: uom,
+                           value: value
                        }),
                        success: function (data) {
                            alert(data.responseText)
@@ -107,9 +135,14 @@
                        error: function (data) {
                            alert(data.responseText)
                        }}
-                   )}
+                   )
+
+                   $(document).ajaxStop(function(){
+                       window.location.reload();
+                   });
+               }
            </script>
 
-       </div>
+
     </body>
 </html>

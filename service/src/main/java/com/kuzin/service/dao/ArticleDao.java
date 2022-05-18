@@ -65,8 +65,8 @@ public class ArticleDao {
         return result;
     }
 
-    public void update(Article article, long id) {
-        jdbcTemplate.update(UPDATE, article.getType(),
+    public int update(Article article, long id) {
+        return jdbcTemplate.update(UPDATE, article.getType(),
                 article.getValue(), id);
     }
 

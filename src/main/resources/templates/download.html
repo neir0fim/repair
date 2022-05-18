@@ -4,23 +4,29 @@
     <title>DOWNLOAD</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 </head>
-<body class="bg-dark text-white">
+    <body class="bg-dark text-white">
 
-    <section class="my-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 mx-auto">
-                    <h2>Download File</h2>
-                    <form method="post" th:action="@{/materials/api/input}" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <input type="file" name="file" class="form-control-file">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Download File</button>
-                    </form>
+        <section class="my-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 mx-auto">
+                        <h2>Download File</h2>
+                        <form method="post" th:action="@{/materials/api/input}" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <input type="file" name="file" class="form-control-file">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Download File</button>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-</body>
+
+
+        <script>
+
+        </script>
+
+    </body>
 </html>

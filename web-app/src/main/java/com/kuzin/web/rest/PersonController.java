@@ -2,9 +2,7 @@ package com.kuzin.web.rest;
 
 import com.kuzin.entity.Person;
 import com.kuzin.service.service.PersonService;
-import java.io.IOException;
 import java.util.List;
-import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,11 +39,10 @@ public class PersonController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public void addUser(@ModelAttribute Person person, HttpServletResponse response)
-            throws IOException {
+    public ResponseEntity<String> addUser(@RequestBody Person person) {
         service.addUser(person);
 
-        response.sendRedirect("/person/get/" + person.getName());
+        return new ResponseEntity<>(person.getName(), HttpStatus.OK);
     }
 
     @DeleteMapping("/{username}")
@@ -74,6 +71,6 @@ public class PersonController {
                                      @RequestBody Person person) {
         service.updatePerson(person, username);
 
-        return ResponseEntity.ok("user " + username + " was updated");
+        return new ResponseEntity<>(username, HttpStatus.OK);
     }
 }

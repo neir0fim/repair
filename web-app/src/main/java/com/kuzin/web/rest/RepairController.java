@@ -2,9 +2,7 @@ package com.kuzin.web.rest;
 
 import com.kuzin.entity.Repair;
 import com.kuzin.service.service.RepairService;
-import java.io.IOException;
 import java.util.List;
-import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.AccessException;
 import org.springframework.http.HttpStatus;
@@ -27,11 +25,10 @@ public class RepairController {
 
 
     @PostMapping()
-    public void doPost(@ModelAttribute Repair repair, HttpServletResponse response)
-            throws AccessException, IOException {
+    public ResponseEntity<Long> doPost(@RequestBody Repair repair) throws AccessException {
         long id = service.save(repair);
 
-        response.sendRedirect("/repair/get/" + id);
+        return new ResponseEntity<>(id, HttpStatus.OK);
     }
 
     @GetMapping("/article/{id}")

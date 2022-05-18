@@ -67,18 +67,7 @@ public class ErrorController {
         return ERROR;
     }
 
-    @ExceptionHandler(value = NoSuchElementException.class)
-    protected String validateHandler(HttpServletRequest request, Model model, Exception e) {
-        output = REQUEST + request.getRequestURI() + RAISED + e;
 
-        logger.error(output);
-
-        model.addAttribute(ERROR, CODE + HttpServletResponse.SC_NOT_FOUND);
-        model.addAttribute(MESSAGE, "no items have been added yet");
-
-
-        return ERROR;
-    }
 
     @ExceptionHandler(value = PSQLException.class)
     protected String databaseHandler(HttpServletRequest request, Model model, Exception e) {
@@ -151,7 +140,7 @@ public class ErrorController {
     }
 
     @ExceptionHandler(value = IllegalArgumentException.class)
-    protected ResponseEntity<String> illegalHandler(HttpServletRequest request,
+    protected String illegalHandler(HttpServletRequest request,
                                                     Model model, Exception e) {
         output = REQUEST + request.getRequestURI() + RAISED + e;
 
@@ -161,7 +150,7 @@ public class ErrorController {
         model.addAttribute(MESSAGE, "wrong type of input format");
 
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("wrong user input");
+        return ERROR;
     }
 
     @ExceptionHandler(value = DataIntegrityViolationException.class)
@@ -179,22 +168,27 @@ public class ErrorController {
                 .body("cannot delete information while it contains");
     }
 
+    @ExceptionHandler(value = NoSuchElementException.class)
+    protected ResponseEntity<String> validateHandler(HttpServletRequest request, Model model,
+                                                     Exception e) {
+        output = REQUEST + request.getRequestURI() + RAISED + e;
+        logger.error(output);
+        model.addAttribute(ERROR, CODE + HttpServletResponse.SC_NOT_FOUND);
+        model.addAttribute(MESSAGE, "no items have been added yet");
 
-
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body("the data you requested is empty");
+    }
 
 
     @ExceptionHandler(value = DuplicateKeyException.class)
-    protected String duplicateKey(HttpServletRequest request, Model model, Exception e) {
+    protected ResponseEntity<String> duplicateKey(HttpServletRequest request, Exception e) {
         output = REQUEST + request.getRequestURI() + RAISED + e;
 
         logger.error(output);
 
-        model.addAttribute(ERROR, CODE + HttpServletResponse.SC_BAD_REQUEST);
-        model.addAttribute(MESSAGE, "such object is already create, try "
-                + "with another parameter");
-
-
-        return ERROR;
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body("such data is already exist");
     }
 
 

@@ -2,7 +2,6 @@ package com.kuzin.web.mvc;
 
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,13 +37,4 @@ public class MaterialMvcController {
         return "download";
     }
 
-    @GetMapping("/result/{success}/{fail}")
-    public String resultDownload(@PathVariable ("success") int success,
-                                 @PathVariable ("fail") int fail, Model model) {
-
-        model.addAttribute("success", success);
-        model.addAttribute("fail", fail);
-
-        return "supp/result";
-    }
 }

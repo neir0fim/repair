@@ -3,6 +3,7 @@ package com.kuzin.service.service;
 import static com.kuzin.service.service.addition.Validation.*;
 
 import com.kuzin.entity.Material;
+import com.kuzin.entity.Report;
 import com.kuzin.entity.WorksMaterial;
 import com.kuzin.service.dao.MaterialDao;
 import java.io.File;
@@ -55,7 +56,7 @@ public class MaterialService {
         materialDao.update(material, cod);
     }
 
-    public int[] download(File file) {
+    public Report download(File file) {
         return materialDao.download(file);
     }
 

@@ -39,8 +39,6 @@ public class UnitService {
         long id = Long.getLong(input);
 
 
-
-
         Unit result = dao.get(id);
         result.setArticleList(articleDao.getForUnit(id));
 
@@ -59,6 +57,8 @@ public class UnitService {
     }
 
     public long save(Unit unit) {
+        validateString(unit.getKind());
+
         return dao.save(unit);
     }
 

@@ -33,7 +33,7 @@ public class Validation {
     }
 
     public static void validId(long id) {
-        if ((Long) id == null) {
+        if (id <= 0) {
             throw new IllegalArgumentException();
         }
     }

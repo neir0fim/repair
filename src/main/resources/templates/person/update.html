@@ -21,7 +21,6 @@
     <div style="margin: 20px">
         <h2>UPDATE USER PARAMETER</h2>
             <div>
-                <form>
                     <h2 value="{username}(username = ${name})"></h2>
 
                     <input type="text" name="pass" placeholder="PASS" style="margin: 10px" id="pass">
@@ -39,36 +38,46 @@
                     </select>
 
                     <br>
-                    <button onclick = "gfg_RunUn()" id="update_button" style="margin: 10px">
+                    <button onclick = "gfg_RunUn()" id="update_button" style="margin: 10px" class="btn btn-outline-warning">
                         UPDATE
                     </button>
-                </form>
+                <br>
 
-                <script>
-                    function gfg_RunUn() {
-                        const currentLocation = window.location.pathname;
-                        const username = currentLocation.replace('/person/update/', '');
+                <a href="/person" class="btn btn-secondary" role="button" style="margin: 5px">BACK TO PERSONS</a>
 
-                        $.ajax('/persons/api/' + username, {
-                            type: 'PATCH',
-                            dataType: 'json',
-                            contentType: 'application/json',
-                            data: JSON.stringify({
-                                pass: document.getElementById('pass').value,
-                                type: document.getElementById('user_type').value,
-                                role: document.getElementById('user_role').value
-                            }),
-                            success: function (data) {
-                                alert(data.responseText)
-                            },
-
-                            error: function (data) {
-                                alert(data.responseText)
-                            }}
-                        )}
-                </script>
             </div>
     </div>
+    <script>
+        function gfg_RunUn() {
+            const currentLocation = window.location.pathname;
+            const username = currentLocation.replace('/person/update/', '');
+            const pass = document.getElementById('pass').value
 
+            if (pass.length === 0) {
+                return alert('empty password')
+            }
+            $.ajax('/persons/api/' + username, {
+                type: 'PATCH',
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    pass: pass,
+                    type: document.getElementById('user_type').value,
+                    role: document.getElementById('user_role').value
+                }),
+                success: function (data) {
+                    alert(data)
+                },
+
+                error: function (data) {
+                    if (data.status === 200) {
+                        alert("user " + data.responseText + " was updated")
+                    } else {
+                        alert(data.responseText)
+                    }
+                }}
+
+            )}
+    </script>
 </body>
 </html>

@@ -9,34 +9,60 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
             crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
     <title>New repair</title>
 
 </head>
 
     <body class="bg-dark text-white" style="margin: 20px">
-
-    <h2>ENTER REPAIR PARAMETER</h2>
-
-    <section class="js">
-        <div class="input-group mb-3" style="margin: 10px">
-            <form th:method="POST" th:action="@{/repair/api}" th:object="${repair}">
+        <div style="margin-bottom: 20px">
+            <h2>ENTER REPAIR PARAMETER</h2>
+            <label>
                 <input type="text" name="description" id="description"
-                       placeholder="description" style="margin: 10px" class="form-control" required="">
-                <br>
+                       placeholder="description">
 
-
-                <select name="article" style="margin: 10px">
+                <select id="article">
                     <option th:each="article : ${articles}" th:value = "${article.getValue()}"
                             th:text = "${article.getValue()}" >
                     </option>
                 </select>
-                <br>
-                <input type="submit" value="CREATE" id = "reset-button" style="margin: 10px">
-            </form>
-
-
+                <button onclick = "create()" class="btn btn-outline-warning">
+                    CREATE
+                </button>
+            </label>
         </div>
-    </section>
+
+        <br>
+        <a href="/user" class="btn btn-secondary"
+           role="button" style="margin: 5px">BACK TO MENU</a>
+
+    <script>
+        function create() {
+            const desc = document.getElementById('description').value
+            const article = document.getElementById('article').value
+
+            if(desc.length === 0){
+                return alert('empty description')
+            }
+
+            $.ajax('/repair/api/', {
+                type: 'POST',
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    description: desc,
+                    article: article
+                }),
+                success:function(data) {
+                    window.location.href = "/repair/get/" + data;
+                },
+                error: function (data) {
+                    alert(data.responseText)
+                }
+            })
+        }
+    </script>
 
     </body>
 </html>

@@ -43,11 +43,10 @@ public class ArticleController {
     }
 
     @PostMapping
-    public void save(@ModelAttribute Article article, HttpServletResponse response)
-            throws IOException {
+    public ResponseEntity<Long> save(@RequestBody Article article) {
         Article result = service.save(article);
 
-        response.sendRedirect("/articles/get/" + result.getId());
+        return new ResponseEntity<>(result.getId(), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
@@ -65,15 +64,19 @@ public class ArticleController {
     @PatchMapping("/{id}")
     public ResponseEntity<String> update(@RequestBody Article article,
                                          @PathVariable ("id") long id) {
-        service.update(article, id);
+        int result = service.update(article, id);
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body("article with id: " + id + " was updated");
+        if (result != 1) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("wrong user input");
+        } else {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body("article was update");
+        }
     }
 
 
     @GetMapping("/report/{id}")
-    public List<WorksMaterial> getReport(@PathVariable ("id") long id) throws AccessException {
+    public List<WorksMaterial> getReport(@PathVariable ("id") long id) {
         return service.getReport(id);
     }
 

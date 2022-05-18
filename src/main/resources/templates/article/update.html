@@ -20,12 +20,18 @@
 </head>
 
 <body class="bg-dark text-white">
-<h2>UPDATE ARTICLE PARAMETER</h2>
-    <div>
+    <div style="margin: 20px">
+        <h2>UPDATE ARTICLE PARAMETER</h2>
+        <div>
+            <br>
+            <label> current article value:
+                <span id="unit_kind"></span>
+            </label>
+        </div>
 
-            <form>
+        <div>
+            <label>
                 <input type="text" name="value" id="value" placeholder="value" style="margin: 10px">
-                <br>
 
                 <select name="type" style="margin: 10px" id="article_type">
                     <option th:each="unit : ${units}" th:value = "${unit.getKind()}"
@@ -33,21 +39,47 @@
                     </option>
                 </select>
 
-                <br>
-                <button onclick = "gfg_RunUn()" id="update_button" style="margin: 10px">
+                <button onclick = "gfg_RunUn()" id="update_button" class="btn btn-outline-warning">
                     UPDATE
                 </button>
-            </form>
+            </label>
+            <br>
 
-        <br><br><br>
-        <a href="/admin" class="btn btn-info" role="button" style="margin: 5px">BACK TO MENU</a>
+            <br>
+            <a href="/articles" class="btn btn-secondary" role="button" style="margin: 5px">BACK TO ARTICLES</a>
+            <br>
+            <a href="/admin" class="btn btn-secondary" role="button" style="margin: 5px">BACK TO MENU</a>
+        </div>
 
+    </div>
 
         <script>
-            function gfg_RunUn() {
-                const currentLocation = window.location.pathname;
-                const username = currentLocation.replace('/articles/update/', '');
+            const currentLocation = window.location.pathname;
+            const username = currentLocation.replace('/articles/update/', '');
+            const span2 = document.getElementById("unit_kind");
+            const art = Number(username)
 
+            $(document).ready(function () {
+                $.ajax('/articles/api/', {
+                    type:'GET',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function (articles) {
+                        articles.forEach(unit => {
+                            if (unit.id === art) {
+                                span2.textContent = unit.value
+                            }
+                        })
+                    },
+                    error: function (data) {
+                        alert(data.responseText)
+                    }
+                })
+            })
+
+
+
+            function gfg_RunUn() {
                 $.ajax('/articles/api/' + username, {
                     type: 'PATCH',
                     dataType: 'json',
@@ -62,14 +94,13 @@
                     },
                     error: function (data) {
                         console.log(data)
-
                         alert(data.responseText)
                     }}
-                )}
+                )
+                $(document).ajaxStop(function(){
+                    window.location.reload();
+                });
+            }
         </script>
-
-    </div>
-
-
 </body>
 </html>

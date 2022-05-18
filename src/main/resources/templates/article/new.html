@@ -9,32 +9,81 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
             crossorigin="anonymous"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
     <title>New article</title>
 
 </head>
 
-<body class="bg-dark text-white">
-<h2>ENTER USER ARTICLE</h2>
-<section class="js">
-    <div>
-        <form th:method="POST" th:action="@{/articles/api}" th:object="${article}">
-            <input type="text" name="value" id="value" placeholder="value" style="margin: 10px">
-            <br>
+    <body class="bg-dark text-white">
+        <div style="margin: 20px">
+            <div>
+                <h2>ENTER ARTICLE PARAMETER</h2>
+            </div>
+
+            <div>
+                <label>
+                    <input type="text" id="article_value" placeholder="value" style="margin: 10px">
+
+                    <select name="type" style="margin: 10px" id="article_id">
+                        <option th:each="unit : ${units}" th:value = "${unit.getKind()}"
+                                th:text = "${unit.getKind()}">
+                        </option>
+                    </select>
+
+                    <button onclick = "gfg_RunUn()" style="margin: 5px" id="create_button"
+                            class="btn btn-outline-warning">
+                        CREATE
+                    </button>
+
+                </label>
+
+                <br>
+                <br>
+                <a href="/articles" class="btn btn-secondary" role="button" style="margin: 5px">BACK TO ARTICLES</a>
+                <br>
+                <a href="/admin" class="btn btn-secondary" role="button" style="margin: 5px">BACK TO MENU</a>
+
+            </div>
+        </div>
+
+        <script>
+            function gfg_RunUn() {
+                const value = document.getElementById('article_value').value
+                const type = document.getElementById('article_id').value
 
 
-            <select name="type" style="margin: 10px">
-                <option th:each="unit : ${units}" th:value = "${unit.getKind()}"
-                        th:text = "${unit.getKind()}">
-                </option>
-            </select>
+                if (value.length === 0) {
+                    return alert('empty value field')
+                }
 
-            <br>
-            <input type="submit" value="CREATE" id = "reset-button" style="margin: 10px">
-        </form>
+                if (type.length === 0) {
+                    return alert('empty value field')
+                }
 
 
-    </div>
-</section>
+                $.ajax('/articles/api', {
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        value: value,
+                        type: type,
+                    }),
+                    success:function(data) {
+                        alert('article was added')
+                    },
+                    error: function (data) {
+                        if (data.status === 200) {
+                            window.location.href = "/article/get/" + data.responseText;
+                        } else {
+                            alert(data.responseText)
+                        }
+                    }
+                })
+            }
+        </script>
 
-</body>
+    </body>
 </html>

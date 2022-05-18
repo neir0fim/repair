@@ -18,54 +18,54 @@
     </head>
 
     <body class="bg-dark text-white">
-        <H2 style="margin: 20px">FUNCTIONS</H2>
-
-
-        <div class="input-group mb-3" style="margin: 10px">
-            <form onSubmit="return update();">
-                <input type="number" id="article-get" placeholder="UPDATE BY ID">
-                <input type="submit" value="UPDATE">
-            </form>
+        <div style="margin: 20px">
+            <H2 style="margin: 20px">FUNCTIONS</H2>
         </div>
 
-        <section class="js">
-            <div class="input-group mb-3" style="margin: 10px">
-                <form>
+        <div style="margin: 20px">
+            <div class="input-group mb-3">
+                <label>
+                    <input type="number" id="article-get" placeholder="UPDATE BY ID">
+                    <button onclick = "update()" id="g" class="btn btn-outline-warning">
+                        UPDATE
+                    </button>
+                </label>
+            </div>
+
+            <div class="input-group mb-3">
+                <label>
                     <input type="number" id="deleted_url"  placeholder="DELETE BY ID">
-                    <button onclick = "gfg_RunUn()" id="delete_button">
+                    <button onclick = "gfg_RunUn()" id="delete_button" class="btn btn-outline-warning">
                         DELETE
                     </button>
-                </form>
+                </label>
             </div>
-        </section>
 
-        <H2 style="margin: 20px">ALL ARTICLES</H2>
 
-        <div>
-            <ul>
-                <li data-bind="foreach:tasks">
+            <H2 style="margin: 20px">ALL ARTICLES</H2>
+            <div>
+                <ul>
+                    <li data-bind="foreach:tasks">
+                        <label> value:
+                            <span data-bind="text:value"></span>
+                        </label>
 
-                    <label> value:
-                        <span data-bind="text:value"></span>
-                    </label>
+                        <label> type:
+                            <span data-bind="text:type"></span>
+                        </label>
 
-                    <label> type:
-                        <span data-bind="text:type"></span>
-                    </label>
-
-                    <label> id:
-                        <span data-bind="text:id"></span>
-                    </label>
-
-                    <br>
-                </li>
-            </ul>
+                        <label> id:
+                            <span data-bind="text:id"></span>
+                        </label>
+                        <br>
+                    </li>
+                </ul>
+            </div>
+            <br>
+            <a href="/article/new" class="btn btn-secondary" role="button" style="margin: 5px">ADD ARTICLE</a>
+            <br>
+            <a href="/admin" class="btn btn-secondary" role="button" style="margin: 5px">BACK TO MENU</a>
         </div>
-
-        <br><br><br>
-        <a href="/admin" class="btn btn-info" role="button" style="margin: 5px">BACK TO MENU</a>
-
-
 
         <script type="text/javascript">
             $(document).ready(function () {
@@ -98,8 +98,16 @@
             })
 
             function gfg_RunUn() {
-                const username = document.getElementById('deleted_url').value
-                $.ajax("/articles/api/" + username, {
+                const article = document.getElementById('deleted_url').value
+                if (article.length === 0) {
+                    return alert('empty id')
+                }
+
+                if (article <= 0) {
+                    return alert('id must be greater than 0')
+                }
+
+                $.ajax("/articles/api/" + article, {
                     type: 'DELETE',
                     contentType: 'application/json',
                     success: function (data) {
@@ -110,12 +118,23 @@
                         alert(data.responseText)
                     }
                 });
+
+                $(document).ajaxStop(function(){
+                    window.location.reload();
+                });
             }
 
-            function update()
-            {
-                var url = "/articles/update/" + document.getElementById("article-get").value;
-                location.href = url;
+            function update() {
+                const article = document.getElementById("article-get").value
+                if (article.length === 0) {
+                    return alert('empty id')
+                }
+
+                if (article <= 0) {
+                    return alert('id must be greater than 0')
+                }
+
+                location.href = "/articles/update/" + article;
                 return false;
             }
         </script>

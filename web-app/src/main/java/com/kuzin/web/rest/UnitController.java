@@ -2,9 +2,7 @@ package com.kuzin.web.rest;
 
 import com.kuzin.entity.Unit;
 import com.kuzin.service.service.UnitService;
-import java.io.IOException;
 import java.util.List;
-import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,12 +35,10 @@ public class UnitController {
 
 
     @PostMapping
-    public void saveUnit(@ModelAttribute Unit unit, HttpServletResponse response)
-            throws IOException {
+    public ResponseEntity<Long> saveUnit(@RequestBody Unit unit) {
         long id = service.save(unit);
 
-
-        response.sendRedirect("/units/get/" + id);
+        return new ResponseEntity<>(id, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

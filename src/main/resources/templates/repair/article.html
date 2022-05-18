@@ -24,38 +24,39 @@
 
         <div style="margin: 20px">
 
-            <h2 style="margin: 0px">SELECT ARTICLE</h2>
-            <div class="input-group mb-3" style="margin: 10px">
-                <form>
-                    <select id="article-id"  style="margin: 10px">
+            <h2>SELECT ARTICLE</h2>
+            <div class="input-group mb-3">
+                <label>
+                    <select id="article-id">
                         <option th:each="article : ${articles}" th:value = "${article.getId()}"
                                 th:text = "${article.getValue()}" >
                         </option>
                     </select>
-                </form>
-                <button onclick = "gfg_Run()">
-                    GET
-                </button>
-
+                    <button onclick = "gfg_Run()" class="btn btn-outline-warning">
+                        GET
+                    </button>
+                </label>
             </div>
 
 
             <h2>FUNCTIONS</h2>
             <div class="input-group mb-3" style="margin: 10px">
-                <form onSubmit="return getRepair();">
-                    <input type="number" id="repair-get" placeholder="GET BY ID"
-                           class="form-control" required="">
-                    <input type="submit" value="GET">
-                </form>
+                <label>
+                    <input type="number" id="repair-get" placeholder="GET BY ID">
+                    <button onclick = "getRepair()" class="btn btn-outline-warning">
+                        GET
+                    </button>
+                </label>
             </div>
 
             <div>
                 <div class="input-group mb-3" style="margin: 10px">
-                    <form onSubmit="return gfg_delete();">
-                        <input type="number" id="repair-delete" placeholder="DELETE BY ID"
-                               class="form-control" required="">
-                        <input type="submit" value="DELETE">
-                    </form>
+                    <label>
+                        <input type="number" id="repair-delete" placeholder="DELETE BY ID">
+                        <button onclick = "gfg_delete()" class="btn btn-outline-warning">
+                            DELETE
+                        </button>
+                    </label>
                 </div>
             </div>
 
@@ -63,11 +64,9 @@
             <h6>Repair list:</h6>
             <ul id="myList"></ul>
             <br>
-            <a href="/repair/new" class="btn btn-info" role="button" style="margin: 10px">ADD REPAIR</a>
+            <a href="/repair/new" class="btn btn-secondary" role="button" style="margin: 10px">ADD REPAIR</a>
 
-            <a href="/user" class="btn btn-info" role="button" style="margin: 5px">BACK TO MENU</a>
-
-
+            <a href="/user" class="btn btn-secondary" role="button" style="margin: 5px">BACK TO MENU</a>
 
 
         </div>
@@ -90,30 +89,28 @@
                                     + item.type;
                             list.appendChild(li);
                         })
+                    },
+                    error: function (data) {
+                        alert(data.responseText)
                     }
 
                 })
 
-                function process1()
-                {
+                function process1() {
                     return "/repair/api/article/" + document.getElementById("article-id").value;
                 }
 
             }
 
-            function getRepair()
-            {   const repairId = document.getElementById("repair-get").value
+            function getRepair() {
+                const repairId = document.getElementById("repair-get").value
                 if(repairId === 0) {
                     return alert('empty input')
                 }
-
-                if(repairId < 0) {
+                if(repairId <= 0) {
                     return alert('input must be greater than 0')
                 }
-
-
-                var url = "/repair/get/" + repairId;
-                location.href = url;
+                location.href = "/repair/get/" + repairId;
                 return false;
             }
 

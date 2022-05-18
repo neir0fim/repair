@@ -2,6 +2,7 @@ package com.kuzin.service.dao;
 
 
 import com.kuzin.entity.Material;
+import com.kuzin.entity.Report;
 import com.kuzin.service.mapper.MaterialsMapper;
 import java.io.*;
 import java.sql.PreparedStatement;
@@ -67,10 +68,12 @@ public class MaterialDao {
     }
 
 
-    public int[] download(File file) {
+    public Report download(File file) {
         int success = 0;
         int fail = 0;
+        int failCount = 1;
 
+        List<Integer> failRows = new ArrayList<>();
 
         try (FileInputStream stream = new FileInputStream(file)) {
 
@@ -85,7 +88,10 @@ public class MaterialDao {
                     success++;
                 } catch (NonTransientDataAccessException e) {
                     fail++;
+                    failRows.add(failCount);
                 }
+                failCount++;
+
             }
 
 
@@ -93,7 +99,7 @@ public class MaterialDao {
             e.printStackTrace();
         }
 
-        return new int[] {success, fail};
+        return new Report(success, fail, failRows);
     }
 
 

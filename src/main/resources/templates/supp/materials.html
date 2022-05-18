@@ -19,32 +19,36 @@
     </head>
 
     <body class="bg-dark text-white">
-        <div style="margin: 10px">
-            <H2 style="margin: 20px">FUNCTIONS</H2>
+        <div style="margin: 20px">
+            <H2>FUNCTIONS</H2>
 
-            <div class="input-group mb-3" style="margin: 10px">
-                <form onSubmit="return getMaterial();">
-                    <input type="number" id="material-get" placeholder="GET BY CODE" class="form-control" required="">
+            <div class="input-group mb-3">
+                <label>
+                    <input type="number" id="material-get" placeholder="GET BY CODE">
 
-                    <input type="submit" value="GET">
-                </form>
+                    <button onclick = "getMaterial()" id="get_button" class="btn btn-outline-warning">
+                        GET
+                    </button>
+                </label>
             </div>
 
 
-            <div class="input-group mb-3" style="margin: 10px">
-                <form>
-
-                    <input type="number" id="deleted_url"  placeholder="DELETE BY CODE" class="form-control" required="">
-                    <button onclick = "gfg_RunUn()" id="delete_button" style="margin: 2px">
+            <div class="input-group mb-3">
+                <label>
+                    <input type="number" id="deleted_url"  placeholder="DELETE BY CODE" >
+                    <button onclick = "gfg_RunUn()" id="delete_button" class="btn btn-outline-warning">
                         DELETE
                     </button>
-                </form>
+                </label>
             </div>
-            <br><br><br>
-            <a href="/supp" class="btn btn-info" role="button" style="margin: 5px">BACK TO MENU</a>
+            <a href="/supp" class="btn btn-secondary" role="button"
+               style="margin-bottom: 5px">BACK TO MENU</a>
+            <br>
+            <a href="/materials/new" class="btn btn-secondary" role="button">ADD MATERIAL</a>
+
 
             <br><br>
-            <H2 style="margin: 20px">ALL MATERIAL</H2>
+            <H2>ALL MATERIAL</H2>
 
             <div>
                 <ul>
@@ -93,8 +97,18 @@
         })
 
         function gfg_RunUn() {
-            const username = document.getElementById('deleted_url').value
-            $.ajax("/materials/api/" + username, {
+            const delete_id = document.getElementById('deleted_url').value
+
+            if (delete_id.length === 0) {
+                return alert('empty code')
+            }
+
+            if (delete_id <= 0) {
+                return alert('code must be greater than 0')
+            }
+
+
+            $.ajax("/materials/api/" + delete_id, {
                 type: 'DELETE',
                 contentType: 'application/json',
                 success: function (data) {
@@ -105,12 +119,33 @@
                     alert(data.responseText)
                 }
             });
+
+            $(document).ajaxStop(function(){
+                window.location.reload();
+            });
         }
 
-        function getMaterial()
-        {
-            var url =  "/materials/get/" + document.getElementById("material-get").value;
-            location.href = url;
+        function getMaterial() {
+            const getId = document.getElementById("material-get").value
+
+            if (getId.length === 0) {
+                return alert('empty code')
+            }
+
+            if (getId <= 0) {
+                return alert('code must be greater than 0')
+            }
+
+            $.ajax("/materials/api/" + getId, {
+                type: 'GET',
+                contentType: 'application/json',
+                success: function () {
+                    location.href = "/materials/get/" + getId;
+                },
+                error: function (data) {
+                    alert(data.responseText)
+                }
+            });
             return false;
         }
 

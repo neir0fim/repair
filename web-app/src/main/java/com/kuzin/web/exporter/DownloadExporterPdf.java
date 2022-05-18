@@ -1,6 +1,7 @@
 package com.kuzin.web.exporter;
 
-import com.kuzin.entity.Repair;
+
+import com.kuzin.entity.Report;
 import com.lowagie.text.*;
 import com.lowagie.text.Font;
 import com.lowagie.text.pdf.PdfPCell;
@@ -8,15 +9,14 @@ import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 import java.awt.*;
 import java.io.IOException;
-import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
-/** filter report class.*/
-public class FilterPdfExporter {
-    private final List<Repair> repairList;
+/** pdf exporter class.*/
+public class DownloadExporterPdf {
+    private final Report fail;
 
-    public FilterPdfExporter(List<Repair> repairList) {
-        this.repairList = repairList;
+    public DownloadExporterPdf(Report fail) {
+        this.fail = fail;
     }
 
     private void writeTableHeader(PdfPTable table) {
@@ -27,17 +27,16 @@ public class FilterPdfExporter {
         Font font = FontFactory.getFont(FontFactory.TIMES);
         font.setColor(Color.white);
 
-        cell.setPhrase(new Phrase("description", font));
+        cell.setPhrase(new Phrase("#", font));
         table.addCell(cell);
-        cell.setPhrase(new Phrase("id", font));
-        table.addCell(cell);
+
     }
 
 
     private void writeTableData(PdfPTable table) {
-        for (Repair repair : repairList) {
-            table.addCell(repair.getDescription());
-            table.addCell(String.valueOf(repair.getId()));
+        for (Integer row : fail.getFailRow()) {
+            table.addCell(row.toString());
+
         }
     }
 
@@ -47,10 +46,12 @@ public class FilterPdfExporter {
 
         document.open();
 
-        document.add(new Paragraph("filter by repair description"));
+        document.add(new Paragraph("REPORT"));
+        document.add(new Paragraph("success case: " + fail.getSuccess()));
+        document.add(new Paragraph("fail case: " + fail.getFail()));
+        document.add(new Paragraph("lines that were not written"));
 
-
-        PdfPTable table = new PdfPTable(2);
+        PdfPTable table = new PdfPTable(1);
         table.setWidthPercentage(100);
         table.setSpacingBefore(15);
 
@@ -58,7 +59,11 @@ public class FilterPdfExporter {
         writeTableData(table);
 
         document.add(table);
+        document.add(new Paragraph("the download may have failed:"));
 
+        document.add(new Paragraph("if such data already exists or the data in"
+                + " the file was incorrect"));
+        document.add(new Paragraph("Check it out and try again"));
         document.close();
     }
 

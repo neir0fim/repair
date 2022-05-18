@@ -23,34 +23,35 @@
     <div style="margin: 20px">
         <h2>RESULT:</h2>
 
-
-
-        <br>
-        <span id="unit_id"></span>
-
-
-        <br>
-        <span id="unit_kind"></span>
-        <br>
-
-        <span id="material_name"></span>
-        <br>
-        <span id="material_uom"></span>
-        <br>
-        <span id="material_value"></span>
-        <br>
-
-        <br>
-        <br>
-        <button onclick = "getUrlUpdate()">
-            UPDATE CURRENT MATERIAL
-        </button>
-
-        <br><br><br>
-        <a href="/supp" class="btn btn-info" role="button" style="margin: 5px">BACK TO MENU</a>
+        <div>
+            <br>
+            <span id="unit_id"></span>
+            <br>
+            <span id="unit_kind"></span>
+            <br>
+            <span id="material_name"></span>
+            <br>
+            <span id="material_uom"></span>
+            <br>
+            <span id="material_value"></span>
+            <br>
+            <button onclick = "getUrlUpdate()" class="btn btn-outline-warning">
+                UPDATE CURRENT MATERIAL
+            </button>
+        </div>
 
         <br>
-        <a href="/materials/new" class="btn btn-info" role="button" style="margin: 5px">ADD NEW MATERIAL</a>
+        <a href="/materials/new" class="btn btn-secondary" role="button"
+           style="margin-bottom: 5px">ADD NEW MATERIAL</a>
+        <br>
+        <a href="/materials" class="btn btn-secondary" role="button"
+           style="margin-bottom: 5px">GO TO MATERIALS</a>
+
+        <br>
+        <a href="/supp" class="btn btn-secondary" role="button"
+           style="margin-bottom: 5px">BACK TO MENU</a>
+
+
 
     </div>
 

@@ -23,26 +23,25 @@
         <div style="margin: 20px">
             <h2>UPDATE REPAIR PARAMETER</h2>
 
-            <form>
+            <label>
                 <input type="text" name="description"
-                       placeholder="description" style="margin: 10px" id="desc">
-                <br>
+                       placeholder="description" id="desc">
 
-
-                <select name="article" style="margin: 10px" id="article">
+                <select name="article" id="article">
                     <option th:each="article : ${articles}" th:value = "${article.getValue()}"
                             th:text = "${article.getValue()}" >
                     </option>
                 </select>
-                <br>
-                <button onclick = "gfg_RunUn()" id="update_button" style="margin: 10px">
+
+                <button onclick = "gfg_RunUn()" id="update_button" class="btn btn-outline-warning">
                     UPDATE
                 </button>
-
-            </form>
+            </label>
 
             <br>
-            <a href="/user" class="btn btn-info" role="button" style="margin: 5px">BACK TO MENU</a>
+            <a href="/repair" class="btn btn-secondary" role="button" style="margin: 5px">BACK TO REPAIRS</a>
+            <br>
+            <a href="/user" class="btn btn-secondary" role="button" style="margin: 5px">BACK TO MENU</a>
 
 
         </div>
