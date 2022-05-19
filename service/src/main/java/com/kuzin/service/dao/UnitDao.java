@@ -36,11 +36,11 @@ public class UnitDao {
         return new ArrayList<>(jdbcTemplate.query(SELECT_UNITS, new UnitMapper()));
     }
 
-    public long save(Unit unit) {
+    public Unit save(Unit unit) {
         unit.setId(Optional.ofNullable(jdbcTemplate.queryForObject(
                 ADD_UNIT, Long.class, unit.getKind())).stream().findAny().orElseThrow());
 
-        return unit.getId();
+        return unit;
     }
 
     public void update(Unit unit, long id) {

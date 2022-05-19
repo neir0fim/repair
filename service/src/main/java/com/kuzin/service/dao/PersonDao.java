@@ -44,7 +44,7 @@ public class PersonDao extends JdbcDaoImpl {
         setDataSource(dataSource);
     }
 
-    public void addUser(Person user) {
+    public Person addUser(Person user) {
         String username = user.getName();
 
         jdbcTemplate.update(ADD_USER, username,
@@ -55,7 +55,7 @@ public class PersonDao extends JdbcDaoImpl {
         for (SimpleGrantedAuthority authority : authorities) {
             jdbcTemplate.update(ADD_AUTHORITY, username, authority.toString());
         }
-
+        return user;
     }
 
     public List<UserDetails> getUsers() {

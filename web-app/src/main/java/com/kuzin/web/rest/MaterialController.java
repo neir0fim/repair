@@ -44,9 +44,9 @@ public class MaterialController {
 
     @PostMapping
     public ResponseEntity<Integer> save(@RequestBody Material material) {
-        service.save(material);
+        Material result = service.save(material);
 
-        return new ResponseEntity<>(material.getCod(), HttpStatus.OK);
+        return new ResponseEntity<>(result.getCod(), HttpStatus.OK);
     }
 
     @PatchMapping("/{cod}")

@@ -44,6 +44,7 @@ public class ArticleService {
 
     public Article get(long id) throws AccessException {
         validService.filter(validService.getType(id));
+        validId(id);
 
         Article article = articleDao.get(id);
         article.setRepairList(repairDao.getRepairForArticle(id));
@@ -80,6 +81,7 @@ public class ArticleService {
     }
 
     public List<WorksMaterial> getReport(long id) {
+        validId(id);
         List<WorksMaterial> materials = getList(id);
 
         Map<Integer, Double> such = materials.stream().collect(Collectors
@@ -109,7 +111,7 @@ public class ArticleService {
     }
 
 
-    private List<WorksMaterial> getList(long id) {
+    public List<WorksMaterial> getList(long id) {
         List<Integer> repair = repairDao.repairForArticle(articleDao.get(id).getValue());
         List<WorksMaterial> materials = new ArrayList<>();
 

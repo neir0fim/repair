@@ -36,9 +36,9 @@ public class UnitController {
 
     @PostMapping
     public ResponseEntity<Long> saveUnit(@RequestBody Unit unit) {
-        long id = service.save(unit);
+        Unit result = service.save(unit);
 
-        return new ResponseEntity<>(id, HttpStatus.OK);
+        return new ResponseEntity<>(result.getId(), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

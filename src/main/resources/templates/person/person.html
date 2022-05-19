@@ -53,7 +53,7 @@
 
     </div>
 
-    </div>
+    
         <script type="text/javascript">
             const currentLocation = window.location.pathname;
             const username = currentLocation.replace('/person/get/', '/');
@@ -103,6 +103,9 @@
                     contentType: 'application/json',
                     success: function () {
                         alert('user was unblock')
+                    },
+                    error: function (data) {
+                        alert(data.responseText)
                     }
                 })
 
@@ -118,6 +121,9 @@
                     contentType: 'application/json',
                     success: function () {
                         alert('user was blocked')
+                    },
+                    error: function (data) {
+                        alert(data.responseText)
                     }
 
                 })

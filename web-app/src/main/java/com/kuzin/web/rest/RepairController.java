@@ -26,9 +26,9 @@ public class RepairController {
 
     @PostMapping()
     public ResponseEntity<Long> doPost(@RequestBody Repair repair) throws AccessException {
-        long id = service.save(repair);
+        Repair result = service.save(repair);
 
-        return new ResponseEntity<>(id, HttpStatus.OK);
+        return new ResponseEntity<>(result.getId(), HttpStatus.OK);
     }
 
     @GetMapping("/article/{id}")

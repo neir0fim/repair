@@ -1,5 +1,7 @@
 package com.kuzin.entity;
 
+import java.util.Objects;
+
 /**entity class.*/
 public class WorksMaterial extends Material {
     long id;
@@ -61,5 +63,42 @@ public class WorksMaterial extends Material {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "WorksMaterial{"
+                + "cod=" + cod
+                + ", name='" + name + '\''
+                + ", codDk='" + codDk + '\''
+                + ", uom='" + uom + '\''
+                + ", value=" + value
+                + ", id=" + id
+                + ", amount=" + amount
+                + ", cost=" + cost
+                + ", repairId=" + repairId
+                + '}';
+    }
+
+
+    @SuppressWarnings("checkstyle:NeedBraces")
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        WorksMaterial that = (WorksMaterial) o;
+        return id == that.id && Double.compare(that.amount, amount) == 0
+                && Double.compare(that.cost, cost) == 0 && repairId == that.repairId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, amount, cost, repairId);
     }
 }

@@ -5,7 +5,6 @@ import static com.kuzin.service.service.addition.Validation.*;
 import com.kuzin.entity.WorksMaterial;
 import com.kuzin.entity.enums.MaterialPost;
 import com.kuzin.service.dao.WorksMaterialDao;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,12 +23,6 @@ public class WorksMaterialService {
         this.validService = validService;
     }
 
-    public List<WorksMaterial> getForRepair(long id) {
-        validId(id);
-
-
-        return worksMaterialDao.getMaterial(id);
-    }
 
     public void save(MaterialPost worksMaterial) {
         validId(worksMaterial.getRepairId());
@@ -52,6 +45,4 @@ public class WorksMaterialService {
     public int updateMaterial(WorksMaterial worksMaterial) {
         return worksMaterialDao.updateMaterial(worksMaterial);
     }
-
-
 }

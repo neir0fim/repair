@@ -37,10 +37,10 @@ public class MaterialService {
         return result;
     }
 
-    public void save(Material material) {
+    public Material save(Material material) {
         validateObject(material);
 
-        materialDao.save(material);
+        return materialDao.save(material);
     }
 
     public int delete(long t) {
@@ -49,11 +49,11 @@ public class MaterialService {
         return materialDao.delete(t);
     }
 
-    public void update(Material material, long cod) {
+    public int update(Material material, long cod) {
         validateObject(material);
         validId(cod);
 
-        materialDao.update(material, cod);
+        return materialDao.update(material, cod);
     }
 
     public Report download(File file) {

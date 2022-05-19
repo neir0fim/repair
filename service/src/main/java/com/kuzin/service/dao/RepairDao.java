@@ -52,13 +52,14 @@ public class RepairDao {
                 new RepairMapper(), type));
     }
 
-    public long save(Repair repair) {
+    public Repair save(Repair repair) {
         String type = getType(repair.getArticle());
 
-
-        return Optional.ofNullable(jdbcTemplate.queryForObject(INSERT_INTO_REPAIR,
+        repair.setId(Optional.ofNullable(jdbcTemplate.queryForObject(INSERT_INTO_REPAIR,
                 Long.class, repair.getDescription(),
-                repair.getArticle(), type)).stream().findAny().orElseThrow();
+                repair.getArticle(), type)).stream().findAny().orElseThrow());
+
+        return repair;
     }
 
     public int update(Repair repair, long id) {

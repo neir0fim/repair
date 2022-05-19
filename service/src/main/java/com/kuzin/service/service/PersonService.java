@@ -31,11 +31,11 @@ public class PersonService {
         return personDao.getUsers();
     }
 
-    public void addUser(Person user) {
+    public Person addUser(Person user) {
         validateString(user.getName());
         validateString(user.getPass());
 
-        personDao.addUser(user);
+        return personDao.addUser(user);
     }
 
 

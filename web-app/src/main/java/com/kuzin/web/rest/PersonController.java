@@ -40,9 +40,9 @@ public class PersonController {
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> addUser(@RequestBody Person person) {
-        service.addUser(person);
+        Person result = service.addUser(person);
 
-        return new ResponseEntity<>(person.getName(), HttpStatus.OK);
+        return new ResponseEntity<>(result.getName(), HttpStatus.OK);
     }
 
     @DeleteMapping("/{username}")

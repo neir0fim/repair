@@ -4,7 +4,6 @@ import com.kuzin.entity.Repair;
 import com.kuzin.service.dao.RepairDao;
 import com.kuzin.service.dao.WorksMaterialDao;
 import com.kuzin.service.service.addition.Validation;
-import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.AccessException;
@@ -26,9 +25,8 @@ public class RepairService {
         this.validService = validService;
     }
 
-    public long save(Repair repair) throws AccessException {
+    public Repair save(Repair repair) throws AccessException {
         validService.filter(validService.getTypeByValue(repair.getArticle()));
-
 
         Validation.validateString(repair.getDescription());
         Validation.validateString(repair.getArticle());
@@ -48,7 +46,6 @@ public class RepairService {
 
     public List<Repair> getRepairArticle(long id) throws AccessException {
         validService.filter(validService.getType(id));
-
 
         List<Repair> repairs = repairDao.getRepairForArticle(id);
         Validation.validateList(repairs);
@@ -70,9 +67,5 @@ public class RepairService {
         validService.filter(validService.getRepairType(id));
 
         return repairDao.update(repair, id);
-    }
-
-    public List<Repair> getAll() {
-        return Collections.emptyList();
     }
 }

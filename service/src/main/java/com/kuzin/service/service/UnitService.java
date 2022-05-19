@@ -34,17 +34,6 @@ public class UnitService {
         return result;
     }
 
-    public Unit getUnit(String input) {
-        validateString(input);
-        long id = Long.getLong(input);
-
-
-        Unit result = dao.get(id);
-        result.setArticleList(articleDao.getForUnit(id));
-
-        return result;
-    }
-
     public List<Unit> getAll() {
         List<Unit> result = dao.getAll();
         validateList(result);
@@ -56,7 +45,7 @@ public class UnitService {
         return result;
     }
 
-    public long save(Unit unit) {
+    public Unit save(Unit unit) {
         validateString(unit.getKind());
 
         return dao.save(unit);

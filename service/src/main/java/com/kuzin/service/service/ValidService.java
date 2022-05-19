@@ -32,6 +32,4 @@ public class ValidService {
     public String getRepairType(long id) {
         return validDao.getRepairType(id);
     }
-
-
 }

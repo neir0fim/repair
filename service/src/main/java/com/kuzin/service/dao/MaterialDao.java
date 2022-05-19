@@ -58,8 +58,8 @@ public class MaterialDao {
         return material;
     }
 
-    public void update(Material material, long cod) {
-        jdbcTemplate.update(UPDATE, material.getName(),
+    public int update(Material material, long cod) {
+        return jdbcTemplate.update(UPDATE, material.getName(),
                 material.getCodDk(), material.getUom(), material.getValue(), cod);
     }
 
