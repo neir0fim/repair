@@ -4,8 +4,10 @@ import com.kuzin.entity.Article;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 /** article mapper class.*/
+@Component
 public class ArticleMapper implements RowMapper<Article> {
     @Override
     public Article mapRow(ResultSet rs, int rowNum) throws SQLException {
