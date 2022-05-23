@@ -41,6 +41,10 @@ dependencies {
 	compileOnly("org.springframework.boot:spring-boot-devtools")
 
 
+	implementation group: 'org.apache.poi', name: 'poi', version: '5.2.2'
+	implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.2.2'
+
+
 //	testImplementation group: 'org.testcontainers', name: 'testcontainers', version: '1.17.2'
 //	testImplementation group: 'org.testcontainers', name: 'postgresql', version: '1.17.2'
 

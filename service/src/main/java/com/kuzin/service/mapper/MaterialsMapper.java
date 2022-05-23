@@ -4,6 +4,7 @@ import com.kuzin.entity.Material;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 
 /** material mapper class.*/
@@ -20,4 +21,6 @@ public class MaterialsMapper implements RowMapper<Material> {
 
         return material;
     }
+
+
 }

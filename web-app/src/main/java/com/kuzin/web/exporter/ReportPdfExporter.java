@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /** repair report class.*/
 public class ReportPdfExporter {
-    private List<WorksMaterial> worksMaterialList;
+    private final List<WorksMaterial> worksMaterialList;
 
     public ReportPdfExporter(List<WorksMaterial> worksMaterialList) {
         this.worksMaterialList = worksMaterialList;

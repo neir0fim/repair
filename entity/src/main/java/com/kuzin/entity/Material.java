@@ -1,6 +1,8 @@
 package com.kuzin.entity;
 
 
+import java.util.Objects;
+
 /** entity class.*/
 public class Material {
 
@@ -66,5 +68,24 @@ public class Material {
     @Override
     public String toString() {
         return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Material material = (Material) o;
+        return cod == material.cod && Double.compare(material.value, value) == 0 && Objects.equals(name, material.name) && Objects.equals(codDk, material.codDk) && Objects.equals(uom, material.uom);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cod, name, codDk, uom, value);
     }
 }

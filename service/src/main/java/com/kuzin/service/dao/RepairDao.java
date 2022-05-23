@@ -40,7 +40,6 @@ public class RepairDao {
             + " from article where id = ?";
 
     public Repair get(long id) {
-
         return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_REPAIR_USING_ID,
                 new RepairMapper(), id)).stream().findAny().orElseThrow();
     }
@@ -76,20 +75,16 @@ public class RepairDao {
                 Integer.class, article));
     }
 
-
-
-    private String getType(String article) {
+    public String getType(String article) {
         return jdbcTemplate.queryForObject(SELECT_FROM_TYPE, String.class,
                 article);
     }
 
-    private String getTypeById(long id) {
+    public String getTypeById(long id) {
         return jdbcTemplate.queryForObject(GET_REPAIR_TYPE, String.class, id);
     }
 
     public String getArticleType(long id) {
         return jdbcTemplate.queryForObject(GET_ARTICLE_TYPE, String.class, id);
     }
-
-
 }

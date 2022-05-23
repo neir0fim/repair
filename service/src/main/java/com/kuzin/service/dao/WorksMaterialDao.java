@@ -25,7 +25,7 @@ public class WorksMaterialDao {
     }
 
     private static final String ADD_MATERIAL = "INSERT INTO works"
-            + " (cod, name, codDk, uom, value, amount, repair_id) VALUES (?, ?, ?, ?, ?, ?, ?) ";
+            + " (cod, name, codDk, uom, valuesOne, amount, repair_id) VALUES (?, ?, ?, ?, ?, ?, ?) ";
     private static final String GET_MATERIAL_BY_CODE = "SELECT * from material where cod = ?";
     private static final String GET_MATERIAL = "SELECT * from works where repair_id = ?";
     private static final String DELETE = "DELETE from works where id = ?";
@@ -44,9 +44,8 @@ public class WorksMaterialDao {
         return new ArrayList<>(jdbcTemplate.query(GET_MATERIAL, new WorksMapper(), id));
     }
 
-    public void addMaterial(MaterialPost worksMaterial) {
-        Material material = Optional.ofNullable(jdbcTemplate.queryForObject(GET_MATERIAL_BY_CODE,
-                new MaterialsMapper(), worksMaterial.getCode())).stream().findAny().orElseThrow();
+    public WorksMaterial addMaterial(MaterialPost worksMaterial) {
+        Material material = getMaterialForSave(worksMaterial.getCode());
 
         jdbcTemplate.update(ADD_MATERIAL,
                 worksMaterial.getCode(),
@@ -56,6 +55,13 @@ public class WorksMaterialDao {
                 material.getValue(),
                 worksMaterial.getAmount(),
                 worksMaterial.getRepairId());
+
+        return new WorksMaterial(material, worksMaterial.getAmount());
+    }
+
+    public Material getMaterialForSave(int code) {
+        return Optional.ofNullable(jdbcTemplate.queryForObject(GET_MATERIAL_BY_CODE,
+                new MaterialsMapper(), code)).stream().findAny().orElseThrow();
     }
 
     public int updateMaterial(WorksMaterial worksMaterial) {

@@ -3,7 +3,7 @@ package com.kuzin.entity.enums;
 
 /**DTO class.*/
 public class MaterialPost {
-    long code;
+    int code;
     long repairId;
     long amount;
 
@@ -11,17 +11,17 @@ public class MaterialPost {
 
     }
 
-    public MaterialPost(long code, long repairId, long amount) {
+    public MaterialPost(int code, long repairId, long amount) {
         this.code = code;
         this.repairId = repairId;
         this.amount = amount;
     }
 
-    public long getCode() {
+    public int getCode() {
         return code;
     }
 
-    public void setCode(long code) {
+    public void setCode(int code) {
         this.code = code;
     }
 

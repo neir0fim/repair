@@ -81,21 +81,25 @@ public class WorksMaterial extends Material {
     }
 
 
-    @SuppressWarnings("checkstyle:NeedBraces")
     @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
+        if (!super.equals(o)) {
+            return false;
+        }
         WorksMaterial that = (WorksMaterial) o;
         return id == that.id && Double.compare(that.amount, amount) == 0
-                && Double.compare(that.cost, cost) == 0 && repairId == that.repairId;
+                && repairId == that.repairId;
     }
+
+
+
 
     @Override
     public int hashCode() {

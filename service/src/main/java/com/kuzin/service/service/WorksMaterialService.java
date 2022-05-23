@@ -24,10 +24,10 @@ public class WorksMaterialService {
     }
 
 
-    public void save(MaterialPost worksMaterial) {
+    public WorksMaterial save(MaterialPost worksMaterial) {
         validId(worksMaterial.getRepairId());
 
-        worksMaterialDao.addMaterial(worksMaterial);
+        return worksMaterialDao.addMaterial(worksMaterial);
     }
 
     public int deleteMaterial(long t) {

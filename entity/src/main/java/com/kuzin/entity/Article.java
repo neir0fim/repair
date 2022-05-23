@@ -74,6 +74,7 @@ public class Article {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
+
         Article article1 = (Article) o;
         return id == article1.id && Objects.equals(value, article1.value)
                 && Objects.equals(type, article1.type);
@@ -86,6 +87,12 @@ public class Article {
 
     @Override
     public String toString() {
-        return value;
+        return "Article{" +
+                "value='" + value + '\'' +
+                ", unitId=" + unitId +
+                ", type='" + type + '\'' +
+                ", id=" + id +
+                ", repairList=" + repairList +
+                '}';
     }
 }

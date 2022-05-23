@@ -25,8 +25,8 @@ public class ValidDao {
     }
 
     public void filter(String type) throws AccessException {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String userType = jdbcTemplate.queryForObject(GET_USER, String.class, auth.getName());
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        String userType = jdbcTemplate.queryForObject(GET_USER, String.class, name);
 
         assert userType != null;
         if (!userType.equals(type)) {
@@ -47,7 +47,5 @@ public class ValidDao {
     public String getRepairType(long id) {
         return jdbcTemplate.queryForObject(GET_REPAIR_TYPE, String.class, id);
     }
-
-
 
 }

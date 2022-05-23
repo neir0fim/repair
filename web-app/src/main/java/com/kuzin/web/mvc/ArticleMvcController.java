@@ -21,7 +21,6 @@ public class ArticleMvcController {
 
     @GetMapping("/articles")
     public String getArticles() {
-
         return "article/articles";
     }
 
@@ -29,17 +28,12 @@ public class ArticleMvcController {
     @GetMapping("/report/Article")
     public String getReport(Model model) {
         model.addAttribute(ARTICLE, articleService.getForUser());
-
         return "article/report";
     }
 
     @GetMapping("/filter/Repair")
     public String filterByRepair(Model model) {
         model.addAttribute(ARTICLE, articleService.getForUser());
-
         return "article/filterRepair";
     }
-
-
-
 }

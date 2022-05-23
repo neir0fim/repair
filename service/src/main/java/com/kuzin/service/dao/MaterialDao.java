@@ -26,6 +26,7 @@ import org.springframework.stereotype.Repository;
 public class MaterialDao {
     JdbcTemplate jdbcTemplate;
 
+
     @Autowired
     public MaterialDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -76,11 +77,8 @@ public class MaterialDao {
         List<Integer> failRows = new ArrayList<>();
 
         try (FileInputStream stream = new FileInputStream(file)) {
-
-
             Workbook workbook = new XSSFWorkbook(stream);
             Sheet firstSheet = workbook.getSheetAt(0);
-
             for (Row row : firstSheet) {
                 try {
                     Iterator<Cell> cellIterator = row.cellIterator();
@@ -93,8 +91,6 @@ public class MaterialDao {
                 failCount++;
 
             }
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -102,11 +98,8 @@ public class MaterialDao {
         return new Report(success, fail, failRows);
     }
 
-
-
     public void setMaterial(Iterator<Cell> cellIterator) {
         jdbcTemplate.update(INSERT_INTO_MATERIAL, new PreparedStatementSetter() {
-
             @Override
             public void setValues(PreparedStatement ps) throws SQLException {
                 int counter = 0;
@@ -126,4 +119,6 @@ public class MaterialDao {
             }
         });
     }
+
+
 }

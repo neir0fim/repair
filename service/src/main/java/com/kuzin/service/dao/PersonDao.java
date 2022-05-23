@@ -46,10 +46,8 @@ public class PersonDao extends JdbcDaoImpl {
 
     public Person addUser(Person user) {
         String username = user.getName();
-
         jdbcTemplate.update(ADD_USER, username,
                  passwordEncoder.encode(user.getPass()), true, user.getType());
-
         Set<SimpleGrantedAuthority> authorities = user.getRole().getGrantedAuth();
 
         for (SimpleGrantedAuthority authority : authorities) {
@@ -57,6 +55,7 @@ public class PersonDao extends JdbcDaoImpl {
         }
         return user;
     }
+
 
     public List<UserDetails> getUsers() {
         List<UserDetails> result = new ArrayList<>();
@@ -86,10 +85,8 @@ public class PersonDao extends JdbcDaoImpl {
     public void update(Person person, String name) {
         jdbcTemplate.update(UPDATE_PERSON, passwordEncoder.encode(person.getPass()),
                 person.getType(), name);
-
         jdbcTemplate.update(DELETE_AUTHORITY, name);
         Set<SimpleGrantedAuthority> authorities = person.getRole().getGrantedAuth();
-
         for (SimpleGrantedAuthority authority : authorities) {
             jdbcTemplate.update(ADD_AUTHORITY, name, authority.toString());
         }

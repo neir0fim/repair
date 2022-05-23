@@ -26,9 +26,9 @@ public class WorksMaterialController {
 
     @PostMapping("/add")
     public ResponseEntity<String> addMaterial(@RequestBody MaterialPost worksMaterial) {
-        materialService.save(worksMaterial);
+        WorksMaterial result = materialService.save(worksMaterial);
 
-        return ResponseEntity.ok("material was added");
+        return ResponseEntity.ok("material " + result.getName() + " was added");
     }
 
 
