@@ -1,6 +1,5 @@
 package com.kuzin.service.auth;
 
-import static com.kuzin.entity.enums.ApplicationPermission.*;
 import static com.kuzin.entity.enums.ApplicationUserRole.*;
 
 import javax.sql.DataSource;
@@ -26,7 +25,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     PasswordEncoder encoder;
 
     @Autowired
-    public SecurityConfig(DataSource dataSource, Environment environment, PasswordEncoder encoder) {
+    public SecurityConfig(DataSource dataSource,
+                          Environment environment, PasswordEncoder encoder) {
         this.dataSource = dataSource;
         this.environment = environment;
         this.encoder = encoder;
@@ -37,7 +37,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
                 .passwordEncoder(new BCryptPasswordEncoder());
-
     }
 
 
@@ -47,12 +46,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .mvcMatchers("/").permitAll()
-                .antMatchers("/articles").hasAnyAuthority(ARTICLE_GET.getPermission(),
-                        ARTICLE_ALL.getPermission())
-                .antMatchers("/material").hasAnyAuthority(MATERIAL_GET.getPermission(),
-                        MATERIAL_ALL.getPermission())
-                .antMatchers("/persons").hasAnyAuthority(PERSON_GET.getPermission(),
-                        PERSON_ALL.getPermission())
+                .antMatchers("/articles/**").hasRole(ADMIN.name())
+                .antMatchers("/material").hasRole(SUPP.name())
                 .antMatchers("/persons/**").hasRole(ADMIN.name())
                 .antMatchers("/supp/**").hasRole(SUPP.name())
                 .antMatchers("/user/**").hasRole(WORKER.name())
@@ -63,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 .and()
                 .formLogin()
-                    .loginPage("/login")
+                    .loginPage("/getLogin")
                     .permitAll()
                     .defaultSuccessUrl("/", true)
                     .passwordParameter("password")

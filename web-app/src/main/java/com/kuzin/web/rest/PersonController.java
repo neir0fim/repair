@@ -38,7 +38,6 @@ public class PersonController {
 
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> addUser(@RequestBody Person person) {
         Person result = service.addUser(person);
 

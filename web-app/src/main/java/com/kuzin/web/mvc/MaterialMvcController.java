@@ -21,7 +21,6 @@ public class MaterialMvcController {
         return "supp/material";
     }
 
-
     @GetMapping("/new")
     public String addMaterial() {
         return "supp/new";

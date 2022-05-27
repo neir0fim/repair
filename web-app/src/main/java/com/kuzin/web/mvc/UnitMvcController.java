@@ -13,16 +13,11 @@ public class UnitMvcController {
 
     @GetMapping
     public String getUnits() {
-
         return "unit/units";
     }
 
     @GetMapping("/get/{id}")
     public String getUnit(@PathVariable ("id") long id) {
-
-
         return "unit/unit";
     }
-
-
 }

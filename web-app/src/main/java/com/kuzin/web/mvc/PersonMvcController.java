@@ -12,7 +12,6 @@ public class PersonMvcController {
 
     @GetMapping()
     public String getPersons() {
-
         return "person/persons";
     }
 
