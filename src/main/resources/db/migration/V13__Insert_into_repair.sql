@@ -19,9 +19,19 @@ Insert Into repair (description, article, type) VALUES (
                                                            'overlap TK-929', '1.3.4.2.4.3', 'RTM'
                                                        );
 Insert Into repair (description, article, type) VALUES (
-                                                           'overlap TK-103K', '1.3.4.2.4.3', 'KTC'
+                                                           'overlap TK-103K', '1.4.5.1.4.6', 'KTC'
                                                        );
 
 Insert Into repair (description, article, type) VALUES (
-                                                           'boiler', '1.3.4.2.4.3', 'KTC'
+                                                           'boiler', '1.4.5.1.4.6', 'KTC'
+                                                       );
+
+Insert Into repair (description, article, type) VALUES (
+                                                           'supply pump ', '1.4.5.1.4.6', 'KTC'
+                                                       );
+Insert Into repair (description, article, type) VALUES (
+                                                           'boiler 2', '1.4.5.1.4.6', 'KTC'
+                                                       );
+Insert Into repair (description, article, type) VALUES (
+                                                           'turbine', '1.4.5.1.4.6', 'KTC'
                                                        );

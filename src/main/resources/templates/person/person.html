@@ -104,7 +104,12 @@
                         alert('user was unblock')
                     },
                     error: function (data) {
-                        alert(data.responseText)
+                        if (data.status === 200) {
+                            alert('user was unblock')
+
+                        } else {
+                            alert(data.responseText)
+                        }
                     }
                 })
 
@@ -122,7 +127,11 @@
                         alert('user was blocked')
                     },
                     error: function (data) {
-                        alert(data.responseText)
+                        if (data.status === 200) {
+                            alert('user was blocked')
+                        } else {
+                            alert(data.responseText)
+                        }
                     }
 
                 })

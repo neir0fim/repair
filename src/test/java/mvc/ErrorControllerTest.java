@@ -77,9 +77,7 @@ class ErrorControllerTest {
 
 
         this.mockMvc.perform(get("/articles/api"))
-                .andExpect(view().name("error"))
-                .andExpect(model().attributeExists(ERROR))
-                .andExpect(model().attributeExists(MESSAGE));
+                .andExpect(status().isBadRequest());
     }
 
     @Test

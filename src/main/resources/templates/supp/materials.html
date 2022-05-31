@@ -83,7 +83,7 @@
                         contentType: 'application/json',
                         success: function (materials) {
                             materials.forEach(material => {
-                                var key ='cod- ' + material.cod;
+                                var key ='code- ' + material.cod;
                                 var value ='name- ' + material.name;
 
                                 self.tasks.push({value:key, type:value})

@@ -1,8 +1,12 @@
 package com.kuzin.web.mvc;
 
+import java.io.IOException;
 import java.util.NoSuchElementException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.poi.EmptyFileException;
+import org.apache.poi.openxml4j.exceptions.NotOfficeXmlFileException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -86,17 +90,14 @@ public class ErrorController {
     }
 
     @ExceptionHandler(value = IllegalArgumentException.class)
-    protected String illegalHandler(HttpServletRequest request,
+    protected ResponseEntity<String> illegalHandler(HttpServletRequest request,
                                                     Model model, Exception e) {
         output = REQUEST + request.getRequestURI() + RAISED + e;
 
         logger.error(output);
 
-        model.addAttribute(ERROR, CODE + HttpServletResponse.SC_BAD_REQUEST);
-        model.addAttribute(MESSAGE, "wrong type of input format");
-
-
-        return ERROR;
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body("wrong user input");
     }
 
     @ExceptionHandler(value = DataIntegrityViolationException.class)
@@ -126,5 +127,18 @@ public class ErrorController {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body("such data is already exist");
+    }
+
+
+    @ExceptionHandler(value = {NotOfficeXmlFileException.class, EmptyFileException.class,
+            IOException.class})
+    protected String notXmlFile(HttpServletRequest request,
+                                Model model, Exception e) {
+        output = REQUEST + request.getRequestURI() + RAISED + e;
+        logger.error(output);
+
+        model.addAttribute(ERROR, CODE + HttpServletResponse.SC_BAD_REQUEST);
+        model.addAttribute(MESSAGE, "Wrong file format");
+        return ERROR;
     }
 }

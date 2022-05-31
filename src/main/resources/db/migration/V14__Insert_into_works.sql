@@ -15,4 +15,17 @@ INSERT INTO works ( cod, name, coddk, uom, valuesOne, amount, repair_id) VALUES 
  90344,'rubber 2mm','39141000-2','m2',800, 343.12, 7);
 
 INSERT INTO works ( cod, name, coddk, uom, valuesOne, amount, repair_id) VALUES (
- 1456734,'Shutter Du 500','12331000-1','th', 392000, 12333.12, 7);
+ 1456734,'Shutter Du 500','12331000-1','th', 392000, 2, 7);
+
+INSERT INTO works (cod, name, coddk, uom, valuesOne, amount, repair_id) VALUES (
+4321343, 'electrodes', '39141000-2', 'kg', 45, 212.12, 13);
+
+INSERT INTO works ( cod, name, coddk, uom, valuesOne, amount, repair_id) VALUES (
+1232, 'Pipe 420x8 st.3 sp.5', '31100000-7', 'r.m.', 212, 45, 13);
+
+
+INSERT INTO works (cod, name, coddk, uom, valuesOne, amount, repair_id) VALUES (
+4321343, 'electrodes', '39141000-2', 'kg', 45, 12.12, 14);
+
+INSERT INTO works ( cod, name, coddk, uom, valuesOne, amount, repair_id) VALUES (
+1232, 'Pipe 420x8 st.3 sp.5', '31100000-7', 'r.m.', 212, 22, 14);

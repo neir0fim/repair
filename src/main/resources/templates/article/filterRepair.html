@@ -87,6 +87,10 @@
                         console.log(repairs)
                         const array = repairs;
 
+                        if (repairs.length === 0) {
+                            alert("empty list of data")
+                        }
+
                         let list = document.getElementById("myList");
                         $(list).empty();
 
